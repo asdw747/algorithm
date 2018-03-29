@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zhangys</title>
+    <link href="../../scripts/bootstrap/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+<div>
+    <!--向父 <form> 元素添加 role="form"-->
+    <!--把标签和控件放在一个带有 class .form-group 的 <div> 中。这是获取最佳间距所必需的。-->
+    <!--向所有的文本元素 <input>,<textarea> 和 <select> 添加 class .form-control-->
+    <form role="form" class="form-horizontal" style="margin:100px 0px 0px 35%">
+        <div class="form-group" style="width: 400px;">
+            <label>用户</label>
+            <input type="text" placeholder="请输入用户名" id="userName" class="form-control"/>
+        </div>
+        <div class="form-group" style="width: 400px;">
+            <label>密码</label>
+            <input type="text" placeholder="请输入密码" id="password" class="form-control"/>
+        </div>
+        <div class="form-group" style="width: 400px;">
+            <label>确认密码</label>
+            <input type="text" placeholder="请确认密码" id="passwordConfirm" class="form-control"/>
+        </div>
+        <div class="form-group" style="width: 400px;">
+            <label>邮箱</label>
+            <input type="text" placeholder="请输入邮箱" id="email" class="form-control"/>
+        </div>
+        <input type="submit" value="确认" class="btn btn-success"/>
+        <input type="button" value="取消" class="btn"/>
+    </form>
+</div>
+</body>
+</html>
