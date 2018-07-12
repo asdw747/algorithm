@@ -1,4 +1,4 @@
-package mars.SingleModel;
+package mars.design.SingleModel;
 
 public class SingleModel {
 

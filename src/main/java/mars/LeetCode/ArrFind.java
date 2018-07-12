@@ -1,4 +1,4 @@
-package mars;
+package mars.LeetCode;
 
 import jdk.nashorn.internal.ir.CatchNode;
 
