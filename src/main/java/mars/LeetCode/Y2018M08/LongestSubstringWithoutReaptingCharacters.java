@@ -1,7 +1,5 @@
 package mars.LeetCode.Y2018M08;
 
-import org.springframework.util.CollectionUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
