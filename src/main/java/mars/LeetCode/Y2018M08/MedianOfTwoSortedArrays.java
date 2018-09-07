@@ -1,5 +1,7 @@
 package mars.LeetCode.Y2018M08;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class MedianOfTwoSortedArrays {
 
     /**
@@ -38,7 +40,8 @@ public class MedianOfTwoSortedArrays {
         int totalLength = nums1.length + nums2.length;
         boolean isEven = totalLength%2 == 0;
 
-        int j = 0, k=0;
+
+      int j = 0, k=0;
         boolean isJ = false;
         while ((j+k)<(totalLength/2)) {
             if ((k>=nums2.length) || ( j<nums1.length && nums1[j] < nums2[k])) {
