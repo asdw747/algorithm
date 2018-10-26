@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Test1 {
+public class LenovoProblem2 {
+
+    //输入一个数字和上限，返回有多少种组合的可能
 
     public static void main(String [] args) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
