@@ -10,7 +10,7 @@ public class UpdateTool {
         System.out.println("-------------------------begin-------------------------");
 //        method1();
 
-        File file = new File("/home/mi/Projects/mifi-ca/mifi-pt-admin/src/main/java/com/xiaomi/miui/admin/dsp/controllers");
+        File file = new File("/home/mi/Projects/mifi-ca/mifi-pt-admin/src/main/java/com/xiaomi/miui/admin/activitys/biz");
         File[] tempList = file.listFiles();
 
         for (int i = 0; i < tempList.length; i++) {
@@ -19,7 +19,7 @@ public class UpdateTool {
 //              if ("/home/mi/Projects/mifi-ca/mifi-pt-admin/src/main/java/com/xiaomi/miui/admin/market/controllers/MarketEventController.java".equals(tempList[i].getPath())) {
 //
 //              }
-                method1(tempList[i].getPath());
+                method2(tempList[i].getPath());
 
             }
         }
@@ -168,18 +168,18 @@ public class UpdateTool {
                     continue;
                 }
 
-                if (isBeginMethod && (line.contains("return \"") || line.contains("return  \""))) {
-                    sb.append("        model.addAttribute(\"contextPath\", request.getContextPath());");
-                    sb.append(System.getProperty("line.separator"));
-                    sb.append("        model.addAttribute(\"V\", new VmUtils());");
-                    sb.append(System.getProperty("line.separator"));
-                    sb.append(line);
-                    sb.append(System.getProperty("line.separator"));
-
-                    isBeginMethod = false;
-
-                    continue;
-                }
+//                if (isBeginMethod && (line.contains("return \"") || line.contains("return  \""))) {
+//                    sb.append("        model.addAttribute(\"contextPath\", request.getContextPath());");
+//                    sb.append(System.getProperty("line.separator"));
+//                    sb.append("        model.addAttribute(\"V\", new VmUtils());");
+//                    sb.append(System.getProperty("line.separator"));
+//                    sb.append(line);
+//                    sb.append(System.getProperty("line.separator"));
+//
+//                    isBeginMethod = false;
+//
+//                    continue;
+//                }
 
                 //TODO 添加 V、Context
                 sb.append(line);
@@ -207,6 +207,48 @@ public class UpdateTool {
                     sb.append(System.getProperty("line.separator"));
                 }
             }
+
+            System.out.println(sb.toString());
+
+
+            FileOutputStream fos = new FileOutputStream(pathname);
+            PrintWriter pw = new PrintWriter(fos);
+            pw.write(sb.toString().toCharArray());
+            pw.flush();
+            pw.close();
+
+            reader.close();
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void method2(String pathname) {
+//        String pathname = "/home/mi/Projects/mifi-ca/mifi-pt-admin/src/main/java/com/xiaomi/miui/admin/market/controllers/CouponController.java";
+
+        try {
+            FileReader reader = new FileReader(pathname);
+            BufferedReader br = new BufferedReader(reader); // 建立一个对象，它把文件内容转成计算机能读懂的语言
+
+            StringBuilder sb = new StringBuilder();
+            String line;
+            //网友推荐更加简洁的写法
+            boolean isBeginMethod = false;
+
+            while ((line = br.readLine()) != null) {
+                if (line.contains("@Autowired")) {
+                    String [] strings = line.split("\"");
+                    sb.append("@Resource");
+                    sb.append(System.getProperty("line.separator"));
+
+                    continue;
+                }
+
+            }
+            sb.append(line);
+            sb.append(System.getProperty("line.separator"));
 
             System.out.println(sb.toString());
 
