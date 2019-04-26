@@ -4,7 +4,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 
-public class UpdateTool {
+/*
+  通过脚本修改后台的代码，从rose转化为spring boot
+ */
+public class roseToBootTool {
 
     public static void main(String [] args) {
         System.out.println("-------------------------begin-------------------------");
@@ -230,7 +233,7 @@ public class UpdateTool {
 
         try {
             FileReader reader = new FileReader(pathname);
-            BufferedReader br = new BufferedReader(reader); // 建立一个对象，它把文件内容转成计算机能读懂的语言
+            BufferedReader br = new BufferedReader(reader);
 
             StringBuilder sb = new StringBuilder();
             String line;

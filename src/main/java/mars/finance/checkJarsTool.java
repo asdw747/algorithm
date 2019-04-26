@@ -5,7 +5,10 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class checkTool {
+/*
+  对比两个jar包的集合
+ */
+public class checkJarsTool {
 
     public static void main(String [] args) {
         System.out.println("-------------------------begin-------------------------");
@@ -15,11 +18,9 @@ public class checkTool {
             List<String> jars2 = new ArrayList<String>();
 
             String [] jarArray1 = (
-                    "" +
-                            "").split(":");
+                    "").split(":");
             String [] jarArray2 = (
-                    "" +
-                            "").split(":");
+                    "").split(":");
 
             for (String jar : jarArray1) {
                 if (StringUtils.isBlank(jar)) {
