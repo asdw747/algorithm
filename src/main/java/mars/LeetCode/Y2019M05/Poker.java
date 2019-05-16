@@ -6,6 +6,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -52,9 +53,9 @@ public class Poker {
         char [] suit = "CDHS".toCharArray();
         char [] rank = "23456789TJQKA".toCharArray();
         for(int i=0; i<suit.length; i++)
-            v[suit[i]] = i+1;
+            v[suit[i]] = i;
         for(int i=0; i<rank.length; i++)
-            v[rank[i]] = i+1;
+            v[rank[i]] = i+2;
     }
 
     private static void input() {
@@ -200,123 +201,31 @@ public class Poker {
     }
 
     private static int judge() {
-        int a1 = straightFlush(Black);
-        int b1 = straightFlush(White);
-        if (a1>b1) {
-            System.out.println("straightFlush");
-            return 1;
-        } else if (a1<b1) {
-            System.out.println("straightFlush");
-            return -1;
-        } else if (a1 != -1) {
-            System.out.println("straightFlush");
-            return 0;
-        }
+        String className = "mars.LeetCode.Y2019M05.Poker";
+        String [] methodNames = {"straightFlush", "four", "fullHouse", "flush",
+                "straight", "three", "twoPairs", "onePair", "highCard"};
+        try {
+            Class clz = Class.forName(className);
+            Object obj = clz.newInstance();
+            //获取方法
+            for (String methodName : methodNames) {
+                Method m = obj.getClass().getDeclaredMethod(methodName, List.class);
+                int blackRes = (Integer) m.invoke(obj, Black);
+                int whiteRes = (Integer) m.invoke(obj, White);
 
-        int a2 = four(Black);
-        int b2 = four(White);
-        if (a2>b2) {
-            System.out.println("four");
-            return 1;
-        } else if (a2<b2) {
-            System.out.println("four");
-            return -1;
-        } else if (a2 != -1) {
-            System.out.println("four");
-            return 0;
-        }
-
-
-        int a3 = fullHouse(Black);
-        int b3 = fullHouse(White);
-        if (a3>b3) {
-            System.out.println("fullHouse");
-            return 1;
-        } else if (a3<b3) {
-            System.out.println("fullHouse");
-            return -1;
-        } else if (a3 != -1) {
-            System.out.println("fullHouse");
-            return 0;
-        }
-
-        int a4 = flush(Black);
-        int b4 = flush(White);
-        if (a4>b4) {
-            System.out.println("flush");
-            return 1;
-        } else if (a4<b4) {
-            System.out.println("flush");
-            return -1;
-        } else if (a4 != -1) {
-            System.out.println("flush");
-            return 0;
-        }
-
-
-        int a5 = straight(Black);
-        int b5 = straight(White);
-        if (a5>b5) {
-            System.out.println("straight");
-            return 1;
-        } else if (a5<b5) {
-            System.out.println("straight");
-            return -1;
-        } else if (a5 != -1) {
-            System.out.println("straight");
-            return 0;
-        }
-
-        int a6 = three(Black);
-        int b6 = three(White);
-        if (a6>b6) {
-            System.out.println("three");
-            return 1;
-        } else if (a6<b6) {
-            System.out.println("three");
-            return -1;
-        } else if (a6 != -1) {
-            System.out.println("three");
-            return 0;
-        }
-
-        int a7 = twoPairs(Black);
-        int b7 = twoPairs(White);
-        if (a7>b7) {
-            System.out.println("twoPairs");
-            return 1;
-        } else if (a7<b7) {
-            System.out.println("twoPairs");
-            return -1;
-        } else if (a7 != -1) {
-            System.out.println("twoPairs");
-            return 0;
-        }
-
-        int a8 = onePair(Black);
-        int b8 = onePair(White);
-        if (a8>b8) {
-            System.out.println("onePair");
-            return 1;
-        } else if (a8<b8) {
-            System.out.println("onePair");
-            return -1;
-        } else if (a8 != -1) {
-            System.out.println("onePair");
-            return 0;
-        }
-
-        int a9 = highCard(Black);
-        int b9 = highCard(White);
-        if (a9>b9) {
-            System.out.println("highCard");
-            return 1;
-        } else if (a9<b9) {
-            System.out.println("highCard");
-            return -1;
-        } else if (a9 != -1) {
-            System.out.println("highCard");
-            return 0;
+                if (blackRes > whiteRes) {
+                    System.out.println(methodName);
+                    return 1;
+                } else if (blackRes < whiteRes) {
+                    System.out.println(methodName);
+                    return -1;
+                } else if (blackRes != -1) {
+                    System.out.println(methodName);
+                    return 0;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return 0;
