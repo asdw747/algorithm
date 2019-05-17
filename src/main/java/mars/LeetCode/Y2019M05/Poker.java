@@ -1,6 +1,5 @@
 package mars.LeetCode.Y2019M05;
 
-// 有点小麻烦的模拟题，梭哈，同花顺，两手牌比大小。以不变应万变是上策。
 import org.apache.commons.lang.math.NumberUtils;
 
 import java.io.BufferedReader;
@@ -11,37 +10,46 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/*
-德州扑克
+/**
+    德州扑克
 
-一副扑克有52张牌，每张派由一个花色和一个数字组成
+    一副扑克有52张牌，每张派由一个花色和一个数字组成
 
-花色为以下4者之一
-方片 D
-黑桃 S
-红桃 H
-梅花 C
+    花色为以下4者之一
+    方片 D
+    黑桃 S
+    红桃 H
+    梅花 C
 
-数字为以下13者之一
-2,3,4,5,6,7,8,9,T,J,Q,K,A
+    数字为以下13者之一
+    2,3,4,5,6,7,8,9,T,J,Q,K,A
 
-花色无大小，数字2最小，A最大
-一手牌有5张，根据花色和数字不同，其大小按照以下规则决定
-同花顺>铁支>葫芦>同花>顺子>三条>两对>对子>散牌
+    花色无大小，数字2最小，A最大
+    一手牌有5张，根据花色和数字不同，其大小按照以下规则决定
+    同花顺>铁支>葫芦>同花>顺子>三条>两对>对子>散牌
 
-同花顺：相同花色的顺子
-铁支：四张一样的牌
-葫芦：三条加对子
-同花：五张牌花色相同
-顺子：五张相连的牌
-三条：三张一样的牌
-两对：两个对子
-对子：一个对子
-散牌：散牌比最大的一张牌
+    同花顺：相同花色的顺子
+    铁支：四张一样的牌
+    葫芦：三条加对子
+    同花：五张牌花色相同
+    顺子：五张相连的牌
+    三条：三张一样的牌
+    两对：两个对子
+    对子：一个对子
+    散牌：散牌比最大的一张牌
 
-输入：Black:  White:
-输出：
- */
+    输入：Black: 2H 3D 5S 9C KD  White: 2C 3H 4S 8C AH
+    输出： White wins - high card: Ace
+
+    输入：Black: 2H 4S 4C 2D 4H  White: 2S 8S AS QS 3S
+    输出： Black wins - full house
+
+    输入：Black: 2H 3D 5S 9C KD  White: 2C 3H 4S 8C KH
+    输出： Black wins - high card: 9
+
+    输入：Black: 2H 3D 5S 9C KD  White: 2D 3H 5C 9S KH
+    输出： Tie
+ **/
 public class Poker {
 
     private static List<Integer> Black = new ArrayList<>();

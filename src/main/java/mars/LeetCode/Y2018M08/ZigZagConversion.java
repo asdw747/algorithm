@@ -3,6 +3,11 @@ package mars.LeetCode.Y2018M08;
 public class ZigZagConversion {
 
     /**
+     zigzag:Z字形布局
+     给定一个字符串，转成Z字形布局
+
+     思路：一行一行处理即可，一共n行，每个节点在初始字符串中的位置都可以用n变量来表示
+
      The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display
      this pattern in a fixed font for better legibility)
 
