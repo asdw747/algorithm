@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 通过递归实现的一个排列组合问题
+ **/
 public class Recursive {
 
     private static List<Integer> initial = new ArrayList<>();
