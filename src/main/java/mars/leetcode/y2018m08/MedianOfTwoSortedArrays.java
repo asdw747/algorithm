@@ -1,6 +1,4 @@
-package mars.LeetCode.Y2018M08;
-
-import java.util.concurrent.atomic.AtomicInteger;
+package mars.leetcode.y2018m08;
 
 public class MedianOfTwoSortedArrays {
 

@@ -1,4 +1,4 @@
-package mars.LeetCode.Y2018M08;
+package mars.leetcode.y2018m08;
 
 /**
  * Given an array of integers, return indices of the two numbers such that they add up to a specific target.

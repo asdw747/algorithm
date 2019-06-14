@@ -1,4 +1,4 @@
-package mars.LeetCode.Y2018M08;
+package mars.leetcode.y2018m08;
 
 import java.util.ArrayList;
 import java.util.List;

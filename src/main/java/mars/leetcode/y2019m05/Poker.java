@@ -1,4 +1,4 @@
-package mars.LeetCode.Y2019M05;
+package mars.leetcode.y2019m05;
 
 import org.apache.commons.lang.math.NumberUtils;
 

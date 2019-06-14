@@ -1,4 +1,4 @@
-package mars.LeetCode.Y2018M09;
+package mars.leetcode.y2018m09;
 
 import java.io.BufferedReader;
 import java.io.IOException;
