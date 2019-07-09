@@ -81,6 +81,14 @@
           <!--<version>0.9.1.2</version>-->
       <!--</dependency>-->
 
+      <!--tomcat包含servlet-api包，本包提供本地编程支持-->
+      <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>javax.servlet-api</artifactId>
+          <version>3.1.0</version>
+          <scope>provided</scope>
+      </dependency>
+
       <!--Google-->
       <dependency>
           <groupId>com.google.guava</groupId>
@@ -88,13 +96,6 @@
           <version>16.0.1</version>
       </dependency>
 
-      <!--json支持-->
-      <!-- https://mvnrepository.com/artifact/org.json/json -->
-      <dependency>
-          <groupId>org.json</groupId>
-          <artifactId>json</artifactId>
-          <version>20160212</version>
-      </dependency>
       <!--工具类-->
       <dependency>
           <groupId>commons-codec</groupId>
@@ -131,6 +132,19 @@
           <artifactId>lombok</artifactId>
           <version>1.18.4</version>
           <optional>true</optional>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.poi</groupId>
+          <artifactId>poi</artifactId>
+          <version>3.9</version>
+      </dependency>
+
+      <!--json支持-->
+      <!-- https://mvnrepository.com/artifact/org.json/json -->
+      <dependency>
+          <groupId>org.json</groupId>
+          <artifactId>json</artifactId>
+          <version>20160212</version>
       </dependency>
 
       <!-- 引入fastjson依赖 -->
