@@ -14,11 +14,11 @@ import java.util.Map;
 
 public class GetUtils {
 
-    public void get(String url) {
+    public static void get(String url) {
         getWithParams(url, new HashMap<>());
     }
 
-    public void getWithParams(String url, Map<String, Object> params) {
+    public static void getWithParams(String url, Map<String, Object> params) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         CloseableHttpResponse response = null;
         try {

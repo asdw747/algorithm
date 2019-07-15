@@ -24,7 +24,7 @@ public class PostUtils {
         postWithParams(url, new HashMap<>());
     }
 
-    public void postWithParams(String url, Map<String, String> params) {
+    public static void postWithParams(String url, Map<String, String> params) {
         List<NameValuePair> pairs = generatePairs(params);
 
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
@@ -66,7 +66,7 @@ public class PostUtils {
         }
     }
 
-    private List<NameValuePair> generatePairs(Map<String, String> params) {
+    private static List<NameValuePair> generatePairs(Map<String, String> params) {
         if (params == null || params.size() == 0) {
             return Collections.emptyList();
         }
@@ -85,7 +85,7 @@ public class PostUtils {
         return pairs;
     }
 
-    public void postWithParams(String url, UserEntity userEntity) {
+    public static void postWithParams(String url, UserEntity userEntity) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         CloseableHttpResponse response = null;
         try {
