@@ -1,178 +1,210 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>zhangys</groupId>
-  <artifactId>algorithm</artifactId>
-  <packaging>war</packaging>
-  <version>1.0-SNAPSHOT</version>
-  <name>ce Maven Webapp</name>
-  <url>http://maven.apache.org</url>
-  <dependencies>
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>3.8.1</version>
-        <scope>test</scope>
-      </dependency>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>zhangys</groupId>
+    <artifactId>algorithm</artifactId>
+    <packaging>war</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>ce Maven Webapp</name>
+    <url>http://maven.apache.org</url>
 
-      <!--spring-->
-      <dependency>
+    <properties>
+        <sentinel.version>1.6.3</sentinel.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--spring-->
+        <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-test</artifactId>
           <version>4.3.1.RELEASE</version>
-      </dependency>
-      <dependency>
+        </dependency>
+        <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-beans</artifactId>
           <version>4.3.1.RELEASE</version>
-      </dependency>
-      <dependency>
+        </dependency>
+        <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-core</artifactId>
           <version>4.3.1.RELEASE</version>
-      </dependency>
+        </dependency>
 
-      <dependency>
+        <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-context</artifactId>
           <version>4.3.1.RELEASE</version>
-      </dependency>
+        </dependency>
 
-      <dependency>
+        <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-orm</artifactId>
           <version>4.3.1.RELEASE</version>
-      </dependency>
+        </dependency>
 
-      <!--Spring MVC-->
-      <dependency>
+        <!--Spring MVC-->
+        <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-web</artifactId>
           <version>4.3.1.RELEASE</version>
-      </dependency>
-      <dependency>
+        </dependency>
+        <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-webmvc</artifactId>
           <version>4.3.1.RELEASE</version>
-      </dependency>
+        </dependency>
 
-      <!-- hibernate配置-->
-      <dependency>
+        <!-- hibernate配置-->
+        <dependency>
           <groupId>org.hibernate</groupId>
           <artifactId>hibernate-core</artifactId>
           <version>4.3.5.Final</version>
-      </dependency>
+        </dependency>
 
-      <dependency>
+        <dependency>
           <groupId>org.hibernate</groupId>
           <artifactId>hibernate-validator</artifactId>
           <version>4.2.0.Final</version>
-      </dependency>
-      <!--<dependency>-->
+        </dependency>
+        <!--<dependency>-->
           <!--<groupId>mysql</groupId>-->
           <!--<artifactId>mysql-connector-java</artifactId>-->
           <!--<version>6.0.3</version>-->
-      <!--</dependency>-->
+        <!--</dependency>-->
 
-      <!-- 数据库连接池-->
-      <!--<dependency>-->
+        <!-- 数据库连接池-->
+        <!--<dependency>-->
           <!--<groupId>c3p0</groupId>-->
           <!--<artifactId>c3p0</artifactId>-->
           <!--<version>0.9.1.2</version>-->
-      <!--</dependency>-->
+        <!--</dependency>-->
 
-      <!--tomcat包含servlet-api包，本包提供本地编程支持-->
-      <dependency>
+        <!--tomcat包含servlet-api包，本包提供本地编程支持-->
+        <dependency>
           <groupId>javax.servlet</groupId>
           <artifactId>javax.servlet-api</artifactId>
           <version>3.1.0</version>
           <scope>provided</scope>
-      </dependency>
+        </dependency>
 
-      <!--Google-->
-      <dependency>
+        <!--Google-->
+        <dependency>
           <groupId>com.google.guava</groupId>
           <artifactId>guava</artifactId>
           <version>16.0.1</version>
-      </dependency>
+        </dependency>
 
-      <!--工具类-->
-      <dependency>
+        <!--工具类-->
+        <dependency>
           <groupId>commons-codec</groupId>
           <artifactId>commons-codec</artifactId>
           <version>1.10</version>
-      </dependency>
-      <dependency>
+        </dependency>
+        <dependency>
           <groupId>org.apache.commons</groupId>
           <artifactId>commons-lang3</artifactId>
           <version>3.1</version>
-      </dependency>
-      <dependency>
+        </dependency>
+        <dependency>
           <groupId>commons-beanutils</groupId>
           <artifactId>commons-beanutils</artifactId>
           <version>1.8.3</version>
-      </dependency>
-      <dependency>
+        </dependency>
+        <dependency>
           <groupId>commons-collections</groupId>
           <artifactId>commons-collections</artifactId>
           <version>3.2.1</version>
-      </dependency>
-      <dependency>
+        </dependency>
+        <dependency>
           <groupId>commons-logging</groupId>
           <artifactId>commons-logging</artifactId>
           <version>1.2</version>
-      </dependency>
-      <dependency>
+        </dependency>
+        <dependency>
           <groupId>net.sf.ezmorph</groupId>
           <artifactId>ezmorph</artifactId>
           <version>1.0.6</version>
-      </dependency>
-      <dependency>
+        </dependency>
+        <dependency>
           <groupId>org.projectlombok</groupId>
           <artifactId>lombok</artifactId>
           <version>1.18.4</version>
           <optional>true</optional>
-      </dependency>
-      <dependency>
+        </dependency>
+        <dependency>
           <groupId>org.apache.poi</groupId>
           <artifactId>poi</artifactId>
           <version>3.9</version>
-      </dependency>
-      <dependency>
+        </dependency>
+        <dependency>
           <groupId>org.apache.httpcomponents</groupId>
           <artifactId>httpclient</artifactId>
           <version>4.5.5</version>
-      </dependency>
+        </dependency>
 
-      <!--json支持-->
-      <!-- https://mvnrepository.com/artifact/org.json/json -->
-      <dependency>
+        <!--json支持-->
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
           <groupId>org.json</groupId>
           <artifactId>json</artifactId>
           <version>20160212</version>
-      </dependency>
+        </dependency>
 
-      <!-- 引入fastjson依赖 -->
-      <dependency>
+        <!-- 引入fastjson依赖 -->
+        <dependency>
           <groupId>com.alibaba</groupId>
           <artifactId>fastjson</artifactId>
           <version>1.2.59</version>
-      </dependency>
+        </dependency>
 
-      <!-- 引入gson依赖 -->
-      <dependency>
+        <!-- 引入gson依赖 -->
+        <dependency>
           <groupId>com.google.code.gson</groupId>
           <artifactId>gson</artifactId>
           <version>2.6.2</version>
-      </dependency>
+        </dependency>
 
-      <!--NoClassDefFoundError: javax/servlet/jsp/jstl/core/Config-->
-      <!-- https://mvnrepository.com/artifact/jstl/jstl -->
-      <dependency>
+        <!--NoClassDefFoundError: javax/servlet/jsp/jstl/core/Config-->
+        <!-- https://mvnrepository.com/artifact/jstl/jstl -->
+        <dependency>
           <groupId>jstl</groupId>
           <artifactId>jstl</artifactId>
           <version>1.2</version>
-      </dependency>
+        </dependency>
+
+        <!-- 引入sentinel依赖 -->
+        <dependency>
+          <groupId>com.alibaba.csp</groupId>
+          <artifactId>sentinel-core</artifactId>
+          <version>${sentinel.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>com.alibaba.csp</groupId>
+          <artifactId>sentinel-annotation-aspectj</artifactId>
+          <version>${sentinel.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>com.alibaba.csp</groupId>
+          <artifactId>sentinel-datasource-zookeeper</artifactId>
+          <version>${sentinel.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>com.alibaba.csp</groupId>
+          <artifactId>sentinel-parameter-flow-control</artifactId>
+          <version>${sentinel.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>com.alibaba.csp</groupId>
+          <artifactId>sentinel-transport-simple-http</artifactId>
+          <version>${sentinel.version}</version>
+        </dependency>
 
   </dependencies>
   <build>
