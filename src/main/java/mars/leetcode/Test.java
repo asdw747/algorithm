@@ -1,33 +1,32 @@
 package mars.leetcode;
 
+import com.alibaba.fastjson.JSON;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.Data;
+import org.json.JSONObject;
 
 import javax.jws.WebParam;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class Test {
 
     public static void main(String [] args) {
-        List<Model> list = new ArrayList<>();
+//        Map<Integer, String> map = new HashMap<>();
+//        map.put(1, "a");
+//        map.put(2, "b");
 
-        Model m1 = new Model();
-        m1.setA(100);
-        list.add(m1);
+//        for (Map.Entry<Integer, String> entry : map.entrySet()) {
+//            System.out.println(entry.getKey());
+//        }
 
-        Model m2 = new Model();
-        m2.setA(200);
-        list.add(m2);
+        List<Integer> ruleIds = new ArrayList<>();
+        ruleIds.add(3);
+        ruleIds.add(2);
+        ruleIds.add(15);
 
-        Model m3 = new Model();
-        m3.setA(300);
-        list.add(m3);
+        ruleIds.sort(Comparator.comparing(item -> item));
+        System.out.println(ruleIds);
 
-        list.sort((o1, o2) -> o2.getA().compareTo(o1.getA()));
-
-        System.out.println(list.get(0).getA());
     }
 
 
