@@ -355,6 +355,14 @@ public final class RSAUtil {
 		return null;
 	}
 
+	public static boolean verifySignByPublicKey(String content, String sign, String publicKey) {
+		try {
+			return doCheck(content.getBytes("utf-8"), Base64.decodeBase64(sign), loadPublicKey(publicKey));
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 	/**
 	 * 使用公钥判断签名是否与数据匹配
 	 * 

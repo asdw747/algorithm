@@ -1,6 +1,13 @@
 package mars.utils.cryptor;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
 import org.apache.commons.codec.binary.Base64;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class CrytorTest {
 
@@ -41,12 +48,13 @@ public class CrytorTest {
 
 
     public static void main(String [] args) {
-        encryptAndDecrypt();
+//        encryptAndDecrypt();
+        signAndUnSign();
     }
 
     private static void encryptAndDecrypt() {
-        String miPublicKey = RSA_PUBLIC_KEY;
-        String miPrivateKey = RSA_PRIVATE_KEY;
+        String publicKey = RSA_PUBLIC_KEY;
+        String privateKey = RSA_PRIVATE_KEY;
 
         try {
             //模拟发送消息流程
@@ -54,11 +62,11 @@ public class CrytorTest {
             String aesKey = AESUtil.generateAESKey();//返回base64 string
             String encryptData = AESUtil.encrypt(data, aesKey);
 //            String encryptKey = RSAUtils.encryptByPublicKey(aesKey, miPublicKey);
-            String encryptKey =  Base64.encodeBase64String(RSAUtil.encryptData(aesKey.getBytes("utf-8"), RSAUtil.loadPublicKey(miPublicKey)));
+            String encryptKey =  Base64.encodeBase64String(RSAUtil.encryptData(aesKey.getBytes("utf-8"), RSAUtil.loadPublicKey(publicKey)));
 
             //模拟接受消息流程
 //            String decryptKey = RSAUtils.decryptByPrivateKey(encryptKey, miPrivateKey);
-            String decryptKey = new String(RSAUtil.decryptData(Base64.decodeBase64(encryptKey), RSAUtil.loadPrivateKey(miPrivateKey)));
+            String decryptKey = new String(RSAUtil.decryptData(Base64.decodeBase64(encryptKey), RSAUtil.loadPrivateKey(privateKey)));
             String decryptData = AESUtil.decrypt(encryptData, decryptKey);
 
             System.currentTimeMillis();
@@ -71,7 +79,12 @@ public class CrytorTest {
         String miPublicKey = RSA_PUBLIC_KEY;
         String miPrivateKey = RSA_PRIVATE_KEY;
 
+        Map<String, Object> map = new HashMap<>();
+        map.put("a", "b");
+        String sign = SignUtil.signByPrivateKey(map, miPrivateKey);
 
+        map.put("sign", sign);
+        boolean check = SignUtil.verifySign(map, miPublicKey);
+        System.currentTimeMillis();
     }
-
 }
