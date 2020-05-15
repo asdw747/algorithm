@@ -1,5 +1,7 @@
 package mars.utils.cryptor;
 
+import org.apache.commons.codec.binary.Base64;
+
 import javax.crypto.Cipher;
 import java.io.*;
 import java.math.BigInteger;
@@ -56,6 +58,18 @@ public final class RSAUtils {
 		return rsaPrivateKey.getModulus().bitLength();
 	}
 
+	public static String encryptByPublicKey(String plainText, String publicKey) {
+		try {
+			PublicKey pubKey = loadPublicKey(publicKey);
+			Cipher cipher = Cipher.getInstance("RSA");
+			cipher.init(1, pubKey);
+			byte[] enBytes = cipher.doFinal(plainText.getBytes("utf-8"));
+			return Base64.encodeBase64String(enBytes);
+		} catch (Exception var5) {
+			return null;
+		}
+	}
+
 	/**
 	 * 用公钥加密 <br>
 	 * 每次加密的字节数，不能超过密钥的长度值减去11
@@ -92,6 +106,18 @@ public final class RSAUtils {
 			out.close();
 			return encryptedData;
 		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public static String decryptByPrivateKey(String enStr, String privateKey) {
+		try {
+			PrivateKey priKey = loadPrivateKey(privateKey);
+			Cipher cipher = Cipher.getInstance("RSA");
+			cipher.init(2, priKey);
+			byte[] deBytes = cipher.doFinal(Base64.decodeBase64(enStr));
+			return new String(deBytes);
+		} catch (Exception var5) {
 			return null;
 		}
 	}
@@ -213,7 +239,7 @@ public final class RSAUtils {
 	 */
 	public static PublicKey loadPublicKey(String publicKeyStr) throws Exception {
 		try {
-			byte[] buffer = Base64Utils.decode(publicKeyStr);
+			byte[] buffer = Base64Util.decode(publicKeyStr);
 			KeyFactory keyFactory = KeyFactory.getInstance(RSA);
 			X509EncodedKeySpec keySpec = new X509EncodedKeySpec(buffer);
 			return (RSAPublicKey) keyFactory.generatePublic(keySpec);
@@ -236,7 +262,7 @@ public final class RSAUtils {
 	 */
 	public static PrivateKey loadPrivateKey(String privateKeyStr) throws Exception {
 		try {
-			byte[] buffer = Base64Utils.decode(privateKeyStr);
+			byte[] buffer = Base64Util.decode(privateKeyStr);
 			// X509EncodedKeySpec keySpec = new X509EncodedKeySpec(buffer);
 			PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(buffer);
 			KeyFactory keyFactory = KeyFactory.getInstance(RSA);
@@ -323,7 +349,7 @@ public final class RSAUtils {
 			signature.initSign(privateKey);
 			signature.update(encryptByte);
 			byte[] signed = signature.sign();
-			return Base64Utils.encode(signed);
+			return Base64Util.encode(signed);
 		} catch (Exception e) {
 		}
 		return null;
@@ -380,52 +406,14 @@ public final class RSAUtils {
 
 
 	public static void main(String[] args){
-//		String pK = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA56GnjETvfjh3ef2pD7Me3JpX/NPkkqwCjboHo4gsSwHNwidtklQSY8D3h6KwDEVvbbQIEwn3IhMWPinlMB0mW1nZ7Vcuz0YmFn4wdLkZ6L4ihpoX9QBGW84bgtywzENLoyfNuJdEwn+J/W53ytzZL/7s4zyH4YcL5OkE+ceu4mQTA4sfelHbP1Gaq28DdDbc0sTr+Q0Iga0aSAFL1GvrXMMaiM0DJvJx1M/jqFypx8XEQJFO0U2bBiaHqzKxYCgOL7o1hMJt7EOVmSIgdrag1Mu/vDCkq5J0/Q/aI9jVoNmsOiguV+pCRXX/gG5Qiyg7lfYNBFt6SYQF02zauFB3SQIDAQAB";
-//		String p = "MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDnoaeMRO9+OHd5/akPsx7cmlf80+SSrAKNugejiCxLAc3CJ22SVBJjwPeHorAMRW9ttAgTCfciExY+KeUwHSZbWdntVy7PRiYWfjB0uRnoviKGmhf1AEZbzhuC3LDMQ0ujJ824l0TCf4n9bnfK3Nkv/uzjPIfhhwvk6QT5x67iZBMDix96Uds/UZqrbwN0NtzSxOv5DQiBrRpIAUvUa+tcwxqIzQMm8nHUz+OoXKnHxcRAkU7RTZsGJoerMrFgKA4vujWEwm3sQ5WZIiB2tqDUy7+8MKSrknT9D9oj2NWg2aw6KC5X6kJFdf+AblCLKDuV9g0EW3pJhAXTbNq4UHdJAgMBAAECggEBANq00DapgFh1iJou4EpqnmE9eobGq7Oxplebp0rJcMkB0v3XrKXVq+d0dEQlYIS1qxiyPE19w1LxIrdfZ3+ehnEKzbJD93bOjXf/flE31TblEER3itdSgxx7544QQv8bK3fKRXxdmBbtxaT9gS6SiJ/A3HtS1BomIRzqyD/wQziN6PGsaX2U6N/qhbYBWZ3Q1kH/m/JHKiNYRYpwmehIFa5cGHO5161y8Dn93itGeK+3W++9WKkVUmO2tSvor/df7OnATmgo2wzymm015EiBmCnwfwjZKKvUWp5p8S5EQVuD60dPog/jn3T4/PxjOZPQE/aoDinNLIzzhvJIfjWSQOECgYEA/tqH2dt0/DBDxJpkmDpFi/mgj3eLcJ5k11RI7ZbURi1PK/RtY/l6xNSWPbDsW3G+G5vnn/XYUKmnMiJUhKkwarggtT7sgSpdauU3A55xmVMj6aynXrJ5G3sIZ2RCpHiZJVAguiy1ZR9iBuJ9wo7YMMwDIne6wJcDYUz6qga5TJsCgYEA6KxiC/ViFyMYqyNyNeDnRVGnkEs3JDSwcfAFZftCVNV9XouPdwjinp3e7j6CqHb+YG5Hv9eYIGQSaRVv0MXcct/2u5RX2QIMqRC4GuYUX/3MEpaZ+w4xlSLTQcxOaFzi74StGFyQDAK6s8mXxAC1Jv3+JiXqiXeXOzjFdWBnP+sCgYEA+rdPuHIeR07QDGT7G4sQCiFc5GbtpbAdcny3dgzQ7ez7GznON/Eh5utglnYsP9XI+W5J0uLPmKMeGcMONKghOovDmaq6jmN4HYY7tfK0vOq+xM6WpSGc5P0Hindm3FjMCJooaB89oKrcC/vbToCqjG7XkpwI/BhUOe+6FXSh7IsCgYBua5DEWBnLHS7R2SqUgz1+WjgJdIiguBicmeoV8d4S4JZ0zgqx1RenawinTCc5x+8E2JFYa/qYNKXAFRpRm/T4120CrG3cYOqdOYAF0/cLbyjwEWTWDnBddH+JlGoJgTt5rB9xlkwORyVPuXY64JMYBCYe+JOL1aOByXl8MNoPLQKBgQDC1x62WaBgh/Hm2oAvnD20zpdQOyMl3fbfwxyyqwGxxn96YYOLqq4fPBEfKBZ+hRR0eTUxNXYK3M/be0CuY8FqzbA6xTIc8HRu0OSxdmWD/rr33RoOaCpb2TIXSfq9S7MNOExsw23i17jGqOOsCbwUFf3kPs2Y45zD77CqUXobNA==";
-
-		String pK = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvqveIIosaPq27t1EstO0\n" +
-				"mS9h7UWU73Q4F8ryQs+oipHhp1OPqg+QelSGSmMljq/lj5Tkb/Bzdo6t+T1T9Wr0\n" +
-				"/r88O4nMbHnYLlYC1SATGcfGrnQXoHBWdUmVoLeJQOE85j5UAW/FNrUTrCjCrk9V\n" +
-				"/Aw+E5xY8CacHLFMDjLrB1suu1Uv3nTwT5voUfgf631fgj6oq0/suG6j5uyxUaN0\n" +
-				"+w611164W8ev3Pq9tNK2su+W6QkQtSOMrhPGRLOHZo8u4sNmyyadeE/aFD6NCL3L\n" +
-				"QQTaZV6SLEyQ2YSZQwLW9t/Sf+cMD15IJI4S7WVC1lw0dF9B3Qb0ggSwGmE7Bt+e\n" +
-				"KwIDAQAB";
-		String p = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC+q94giixo+rbu\n" +
-				"3USy07SZL2HtRZTvdDgXyvJCz6iKkeGnU4+qD5B6VIZKYyWOr+WPlORv8HN2jq35\n" +
-				"PVP1avT+vzw7icxsedguVgLVIBMZx8audBegcFZ1SZWgt4lA4TzmPlQBb8U2tROs\n" +
-				"KMKuT1X8DD4TnFjwJpwcsUwOMusHWy67VS/edPBPm+hR+B/rfV+CPqirT+y4bqPm\n" +
-				"7LFRo3T7DrXXXrhbx6/c+r200ray75bpCRC1I4yuE8ZEs4dmjy7iw2bLJp14T9oU\n" +
-				"Po0IvctBBNplXpIsTJDZhJlDAtb239J/5wwPXkgkjhLtZULWXDR0X0HdBvSCBLAa\n" +
-				"YTsG354rAgMBAAECggEBAL5KTI9xFs1WmkddsPg/7NeMwFDKxs8L0Ad+1bT0BiL1\n" +
-				"YJ1b+d8hVXGg9b07ofn7dkGLuUg2UyWZU+uQ1z/xFL1BId3RsqD4IVZtJLqLHkT2\n" +
-				"akUlO4c1VjQL0jbptSN5JwwqXDBq2gm1QgLpUxIfv5KirTlpKiHShq7kCyGIk6Ns\n" +
-				"FPmqWDAMYxq6oSL4rS2rNaO/YoMaUK5F/qUlsCfBZu1yBycM+Lx3S5+mfTz17Omx\n" +
-				"w2jBeKeudoAe97c6WPN48s9z9ODgFp+m9aHeS/Yce2BroyRjymCRGO4F/GMX2QPR\n" +
-				"KRp+FiL3vmjdS3liTpuTIug8wDyxqXpCcAngIhs/5WECgYEA7KE3XUJpSuwJGHcm\n" +
-				"cikcXlrKVAeHHHKf0k1JQvIs62Rh060C8E/MTxjQHGhIgNxF/Em498LOAil/1Ndy\n" +
-				"/PRI+ruZKFNmFpdFk/+dVIzRCADUK151c8VhIzRVkGlu72nqSysxUB2FKYM2ULjo\n" +
-				"FcJzMsk4WQEB1eHbdRwzJJhnd+kCgYEAzkeNk4GbpVxxdQ0bZwwgEN56P2KA1fAY\n" +
-				"nihflJ1wc9DFbghOXXJpXIcRfaT79bp8nqzaF5yA1lJ9CfWDrFus0/vthUzjy0oK\n" +
-				"AqmQ7GDelI+T++PqaksZ07XkmqSIu8UP18XoBtrVjXEBghE9fr+AZhDC2ZLQC4CH\n" +
-				"QHCiCVRu7PMCgYA12j7iX5Hc9jjfs4YxZv/IzXrMguYR6FhNIT+yF7F3ZOIKrY5E\n" +
-				"qLSDr871GBqgEQFweEq7QD9oKI+qHdpSjTnqrjUeA1TxgT3Zf8wLiPytiJrAv/+U\n" +
-				"+G+x9mAevI/9tqoWr17Kr901ZGJBHsPa5+UVwsurHdqQFZW/YkqVYoXxuQKBgG7P\n" +
-				"ByF23Sp+N0BekxrO66bELD1CZ90ExeSn4XhO/qpoOrY55gbSwACBWgb5ipPc4rbG\n" +
-				"Ob23R4pZ82tXJK2A7Z1OVrBltnRsyGXXus8P1mFNo3wLWdBRmYUdz7i2q/DaEgGi\n" +
-				"AVs1UMRTMTEym6srqgip9lG0SOf02jLmjlSes5u7AoGAY7vPLxzzmd2wAzzU/pwN\n" +
-				"QZKbA7v/acTOz1EoQhlZwae8xPz3wSZ1YiWYNR2zj5dJ+lVBwnPicE/vuKZJI9hF\n" +
-				"1bKn/uHqROTxklpMYvxW2fg2ZWoNLMy1GP5BlVwZvoT1Q/RbXoYIaqgBUk1W0qhU\n" +
-				"gZljSKBOs+Uaq42a7bZh9zU=";
+		String pK = "";
+		String p = "";
 		try {
 			PublicKey publicKey =loadPublicKey(pK);
 			System.out.println(publicKey);
 
 			PrivateKey privateKey = loadPrivateKey(p);
 			System.out.println(privateKey);
-
-//			DecimalFormat df = new DecimalFormat("0000");
-//			String str2 = df.format(99999);
-//			System.out.println(str2);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
