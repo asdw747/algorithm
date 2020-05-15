@@ -1,6 +1,6 @@
 package mars.encryption;
 
-import mars.utils.cryptor.RSAUtils;
+import mars.utils.cryptor.RSAUtil;
 
 import java.security.PrivateKey;
 
@@ -15,7 +15,7 @@ public class RSATest {
 //            RSAUtils.printPrivateKeyInfo(keyPair.getPrivate());
 //        }
         try {
-            PrivateKey privateKey = RSAUtils.loadPrivateKey("MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDF7+Jfz3FrCxTb\n" +
+            PrivateKey privateKey = RSAUtil.loadPrivateKey("MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDF7+Jfz3FrCxTb\n" +
                     "3fPvXdcFmyaP/qOtfssfs2COoDFF6TvM/FQ4BiM+g6Cctlw5N/Tfm+OB18kHRGSu\n" +
                     "tJGLxeHlYoKexrcGDi5ezbkMtXhjtycd9Q2Sz9fmhdr3Q43yJJw+ZPimIL887MDP\n" +
                     "jrtjVOeVOZ3a/r+PvqWI6SNAme5Q0tAaPHeuADBxSCC7I40gaOr1qGEchUvKzM9k\n" +
@@ -42,9 +42,9 @@ public class RSATest {
                     "BVjaktH6fT7qVVRdmjxseP3SG9VlYr7Dmg4WUEbIUDf72y9rR2tHuCQcIkRx2oca\n" +
                     "q3Jevh/8B+350KH2+di0e0A5");
 
-            RSAUtils.printPrivateKeyInfo(privateKey);
+            RSAUtil.printPrivateKeyInfo(privateKey);
 
-            PrivateKey privateKey1 = RSAUtils.loadPrivateKey("MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDF7+Jfz3FrCxTb" +
+            PrivateKey privateKey1 = RSAUtil.loadPrivateKey("MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDF7+Jfz3FrCxTb" +
                     "3fPvXdcFmyaP/qOtfssfs2COoDFF6TvM/FQ4BiM+g6Cctlw5N/Tfm+OB18kHRGSu" +
                     "tJGLxeHlYoKexrcGDi5ezbkMtXhjtycd9Q2Sz9fmhdr3Q43yJJw+ZPimIL887MDP" +
                     "jrtjVOeVOZ3a/r+PvqWI6SNAme5Q0tAaPHeuADBxSCC7I40gaOr1qGEchUvKzM9k" +
@@ -71,7 +71,7 @@ public class RSATest {
                     "BVjaktH6fT7qVVRdmjxseP3SG9VlYr7Dmg4WUEbIUDf72y9rR2tHuCQcIkRx2oca" +
                     "q3Jevh/8B+350KH2+di0e0A5");
 
-            RSAUtils.printPrivateKeyInfo(privateKey1);
+            RSAUtil.printPrivateKeyInfo(privateKey1);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,7 +1,7 @@
 package mars.utils.file;
 
 import com.google.common.collect.Lists;
-import mars.utils.cryptor.DESedeUtils;
+import mars.utils.cryptor.DESedeUtil;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
@@ -137,7 +137,7 @@ public class FileTest {
             File encryptFile = new File("/home/mi/桌面/temp/aaa");
 
             File compressFile = new File(instructionId + ".zip");
-            DESedeUtils.encrypt(new FileInputStream(compressFile), new FileOutputStream(encryptFile), "asdw");
+            DESedeUtil.encrypt(new FileInputStream(compressFile), new FileOutputStream(encryptFile), "asdw");
         } catch (Exception e) {
             System.currentTimeMillis();
         }

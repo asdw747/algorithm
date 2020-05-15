@@ -11,11 +11,11 @@ import javax.crypto.spec.SecretKeySpec;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class DESedeUtils {
-    private static final Logger log = LoggerFactory.getLogger(DESedeUtils.class);
+public class DESedeUtil {
+    private static final Logger log = LoggerFactory.getLogger(DESedeUtil.class);
     private static final String ALGO = "DESede";
 
-    public DESedeUtils() {
+    public DESedeUtil() {
     }
 
     public static void encrypt(InputStream in, OutputStream out, String keyStr) {

@@ -54,11 +54,11 @@ public class CrytorTest {
             String aesKey = AESUtil.generateAESKey();//返回base64 string
             String encryptData = AESUtil.encrypt(data, aesKey);
 //            String encryptKey = RSAUtils.encryptByPublicKey(aesKey, miPublicKey);
-            String encryptKey =  Base64.encodeBase64String(RSAUtils.encryptData(aesKey.getBytes("utf-8"), RSAUtils.loadPublicKey(miPublicKey)));
+            String encryptKey =  Base64.encodeBase64String(RSAUtil.encryptData(aesKey.getBytes("utf-8"), RSAUtil.loadPublicKey(miPublicKey)));
 
             //模拟接受消息流程
 //            String decryptKey = RSAUtils.decryptByPrivateKey(encryptKey, miPrivateKey);
-            String decryptKey = new String(RSAUtils.decryptData(Base64.decodeBase64(encryptKey), RSAUtils.loadPrivateKey(miPrivateKey)));
+            String decryptKey = new String(RSAUtil.decryptData(Base64.decodeBase64(encryptKey), RSAUtil.loadPrivateKey(miPrivateKey)));
             String decryptData = AESUtil.decrypt(encryptData, decryptKey);
 
             System.currentTimeMillis();

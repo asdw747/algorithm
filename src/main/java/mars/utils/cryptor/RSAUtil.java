@@ -17,7 +17,7 @@ import java.security.spec.X509EncodedKeySpec;
  * @author Mr.Zheng
  * @date 2014年8月22日 下午1:44:23
  */
-public final class RSAUtils {
+public final class RSAUtil {
 	private static final String RSA = "RSA";
 	private static final String SIGN_ALGORITHMS = "SHA1WithRSA";
 
