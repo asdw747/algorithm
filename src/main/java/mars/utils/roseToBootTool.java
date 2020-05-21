@@ -1,4 +1,4 @@
-package mars.finance;
+package mars.utils;
 
 import org.apache.commons.lang3.StringUtils;
 

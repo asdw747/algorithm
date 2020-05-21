@@ -8,7 +8,6 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class AESUtil {
@@ -21,7 +20,7 @@ public class AESUtil {
         KeyGenerator keyGenerator = null;
 
         try {
-            keyGenerator = KeyGenerator.getInstance("AES");
+            keyGenerator = KeyGenerator.getInstance(KEY_ALGORITHM);
         } catch (NoSuchAlgorithmException var3) {
             return null;
         }
@@ -35,9 +34,9 @@ public class AESUtil {
     public static String encrypt(String content, String key) {
         try {
             byte[] bytesKey = Base64.decodeBase64(key);
-            SecretKeySpec secretKey = new SecretKeySpec(bytesKey, "AES");
-            Cipher cipher = Cipher.getInstance("AES");
-            byte[] byteContent = content.getBytes("utf-8");
+            SecretKeySpec secretKey = new SecretKeySpec(bytesKey, KEY_ALGORITHM);
+            Cipher cipher = Cipher.getInstance(KEY_ALGORITHM);
+            byte[] byteContent = content.getBytes(ENCODING);
             cipher.init(1, secretKey);
             byte[] result = cipher.doFinal(byteContent);
             return Base64.encodeBase64String(result);
@@ -50,8 +49,8 @@ public class AESUtil {
     public static String decrypt(String content, String key) {
         try {
             byte[] bytesKey = Base64.decodeBase64(key);
-            SecretKeySpec secretKey = new SecretKeySpec(bytesKey, "AES");
-            Cipher cipher = Cipher.getInstance("AES");
+            SecretKeySpec secretKey = new SecretKeySpec(bytesKey, KEY_ALGORITHM);
+            Cipher cipher = Cipher.getInstance(KEY_ALGORITHM);
             cipher.init(2, secretKey);
             byte[] result = cipher.doFinal(Base64.decodeBase64(content));
             return new String(result);
@@ -59,14 +58,6 @@ public class AESUtil {
             LOGGER.error("decrypt error", var6);
             return null;
         }
-    }
-
-    public static String iqiyiDecryptAES(String encrypted, String key) throws Exception {
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        SecretKeySpec sKey = new SecretKeySpec(md.digest(key.getBytes("utf-8")), "AES");
-        Cipher dcipher = Cipher.getInstance("AES");
-        dcipher.init(2, sKey);
-        return new String(dcipher.doFinal(Base64.decodeBase64(encrypted)));
     }
 
     public static void main(String[] args) throws NoSuchAlgorithmException {

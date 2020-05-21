@@ -1,4 +1,4 @@
-package mars.http;
+package mars.utils.http;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;

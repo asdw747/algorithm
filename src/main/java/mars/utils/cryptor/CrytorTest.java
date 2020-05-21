@@ -85,6 +85,6 @@ public class CrytorTest {
 
         map.put("sign", sign);
         boolean check = SignUtil.verifySign(map, miPublicKey);
-        System.currentTimeMillis();
+        System.out.println(check);
     }
 }

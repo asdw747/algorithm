@@ -1,4 +1,4 @@
-package mars.http;
+package mars.utils.http;
 
 import com.alibaba.fastjson.JSON;
 import com.zhangys.entity.UserEntity;
@@ -7,7 +7,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;

@@ -19,7 +19,6 @@ import java.security.spec.X509EncodedKeySpec;
  */
 public final class RSAUtil {
 	private static final String RSA = "RSA";
-	private static final String SIGN_ALGORITHMS = "SHA1WithRSA";
 
 	/**
 	 * 随机生成RSA密钥对(默认密钥长度为1024)
@@ -332,60 +331,6 @@ public final class RSAUtil {
 		}
 
 		return sb.toString();
-	}
-
-	/**
-	 * 使用私钥对数据进行加密签名
-	 * 
-	 * @param encryptByte
-	 *            数据
-	 * @param privateKey
-	 *            私钥
-	 * @return 加密后的签名
-	 */
-	public static String rsaSign(byte[] encryptByte, PrivateKey privateKey) {
-		try {
-			Signature signature = Signature.getInstance(SIGN_ALGORITHMS);
-			signature.initSign(privateKey);
-			signature.update(encryptByte);
-			byte[] signed = signature.sign();
-			return Base64Util.encode(signed);
-		} catch (Exception e) {
-		}
-		return null;
-	}
-
-	public static boolean verifySignByPublicKey(String content, String sign, String publicKey) {
-		try {
-			return doCheck(content.getBytes("utf-8"), Base64.decodeBase64(sign), loadPublicKey(publicKey));
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	/**
-	 * 使用公钥判断签名是否与数据匹配
-	 * 
-	 * @param encryptByte
-	 *            数据
-	 * @param bs
-	 *            签名
-	 * @param publicKey
-	 *            公钥
-	 * @return 是否篡改了数据
-	 */
-	public static boolean doCheck(byte[] encryptByte, byte[] bs, PublicKey publicKey) {
-		try {
-			Signature signature = Signature.getInstance(SIGN_ALGORITHMS);
-			signature.initVerify(publicKey);
-			signature.update(encryptByte);
-			boolean bverify = signature.verify(bs);
-			return bverify;
-
-		} catch (Exception e) {
-		}
-
-		return false;
 	}
 
 	/**
