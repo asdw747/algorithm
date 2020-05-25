@@ -5,11 +5,11 @@ import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-public class TravelHandler implements InvocationHandler {
+public class CarInvocation implements InvocationHandler {
 
     private Object object;
 
-    public TravelHandler(Object o) {
+    public CarInvocation(Object o) {
         this.object = o;
     }
 
