@@ -167,19 +167,35 @@
           <version>20160212</version>
         </dependency>
 
-        <!-- 引入fastjson依赖 -->
+        <!-- 引入json依赖 -->
         <dependency>
           <groupId>com.alibaba</groupId>
           <artifactId>fastjson</artifactId>
           <version>1.2.59</version>
         </dependency>
-
-        <!-- 引入gson依赖 -->
         <dependency>
-          <groupId>com.google.code.gson</groupId>
-          <artifactId>gson</artifactId>
-          <version>2.6.2</version>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+
 
         <!--NoClassDefFoundError: javax/servlet/jsp/jstl/core/Config-->
         <!-- https://mvnrepository.com/artifact/jstl/jstl -->
@@ -216,12 +232,29 @@
           <version>${sentinel.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.5</version>
+            <groupId>com.xiaomi.mifi.cactus</groupId>
+            <artifactId>cactus-core</artifactId>
+            <version>1.4.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.xiaomi</groupId>
+                    <artifactId>xiaomi-iauth-java-sdk</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.alibaba</groupId>
+                    <artifactId>fastjson</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+        <!-- 解压zip -->
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>1.9.4</version>
+        </dependency>
+    </dependencies>
 
-  </dependencies>
+
   <build>
     <finalName>algorithm</finalName>
       <plugins>

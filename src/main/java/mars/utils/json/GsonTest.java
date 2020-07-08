@@ -1,34 +1,73 @@
 package mars.utils.json;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import org.apache.commons.collections.CollectionUtils;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+
 public class GsonTest {
+    public static ObjectMapper objectMapper = new ObjectMapper();
+    public static Gson gson = new Gson();
 
     public static void main(String [] args) {
-//        GsonBuilder builder = new GsonBuilder();
-//        builder.registerTypeAdapter(IntListType, jsonModelSerializer);
-//        builder.registerTypeAdapter(new TypeToken<List<JsonModel>>() {}.getType(), jsonModelSerializer);
 
-        GsonBuilder builder = JsonUtil.getBuilder(new TypeToken<JsonModel>() {}.getType(), new JsonModelSerializer());
-        Gson gson = builder.create();
+        String a = "{" +
+                "\"a\":1," +
+                "\"c\":[" +
+                "{\n" +
+                "\"organizationId\":\"45\"," +
+                "\"percent\":100," +
+                "\"priority\":0," +
+                "\"toOrgId\":0" +
+                "}" +
+                "]}";
+//        String a = "{" +
+//                "\"a\":1," +
+//                "\"c\":[1,2,3]}";
 
-        JsonModel jsonModel = new JsonModel();
-        jsonModel.setA(1);
-        jsonModel.setB(3);
-        String dataContent = gson.toJson(jsonModel);
-        System.out.println(dataContent);
 
-        List<JsonModel> models = new ArrayList<>();
-        JsonModel jsonModelItem1 = new JsonModel();
-        jsonModelItem1.setA(2);
-        models.add(jsonModel);
-        String dataContent1 = gson.toJson(models);
-        System.out.println(dataContent1);
+
+
+        try {
+//            JsonModel b = JSON.parseObject(a, JsonModel.class);
+//            JsonModel b = JSON.parseObject(a, JsonModel.class);
+//            JsonModel c = objectMapper.readValue(a, JsonModel.class);
+//            JsonModel c = gson.fromJson(a, JsonModel.class);
+//            c.setD("aaa");
+//
+//            String str = gson.toJson(c);
+//            JsonObject jsonObject = gson.fromJson(str, JsonObject.class);
+//            JSONObject fastJson = JSON.parseObject(str);
+//            System.out.println(jsonObject.get("c").getAsString());
+//            System.out.println(fastJson.get("d"));
+
+            String a1 = null;
+            System.out.println("aaaa" + a1);
+
+            System.currentTimeMillis();
+//            if (CollectionUtils.isNotEmpty(c.getC())) {
+//                String d = gson.toJson(c.getC());
+//                JsonArray jsonArray = new JsonParser().parse(d).getAsJsonArray();
+//                System.currentTimeMillis();
+//            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
     }
 
 }

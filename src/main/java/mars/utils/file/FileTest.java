@@ -5,16 +5,19 @@ import mars.utils.cryptor.DESedeUtil;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.tools.zip.ZipFile;
 
 import java.io.*;
+import java.util.Enumeration;
 import java.util.List;
 
 public class FileTest {
 
     public static void main(String [] args) {
 
-        tarGz();
+//        tarGz();
 //        unTarGz();
+        FileUtil.unZipFiles("/home/mi/project_tmp/3423214565255544997.zip", "/home/mi/project_tmp/ok");
 
     }
 
@@ -142,5 +145,7 @@ public class FileTest {
             System.currentTimeMillis();
         }
     }
+
+
 
 }
