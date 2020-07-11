@@ -11,24 +11,16 @@ public class ReadWriteLockExample {
     public static void main(String [] args) {
         //同时读、写
         ExecutorService service = Executors.newCachedThreadPool();
-        service.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(20);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                readFile(Thread.currentThread());
+        service.execute(() -> {
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            readFile(Thread.currentThread());
         });
 
-        service.execute(new Runnable() {
-            @Override
-            public void run() {
-                writeFile(Thread.currentThread());
-            }
-        });
+        service.execute(() -> writeFile(Thread.currentThread()));
     }
 
     // 读操作
