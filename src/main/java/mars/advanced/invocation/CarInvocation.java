@@ -1,7 +1,5 @@
 package mars.advanced.invocation;
 
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 

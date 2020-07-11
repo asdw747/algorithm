@@ -231,21 +231,6 @@
           <artifactId>sentinel-transport-simple-http</artifactId>
           <version>${sentinel.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.xiaomi.mifi.cactus</groupId>
-            <artifactId>cactus-core</artifactId>
-            <version>1.4.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.xiaomi</groupId>
-                    <artifactId>xiaomi-iauth-java-sdk</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.alibaba</groupId>
-                    <artifactId>fastjson</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <!-- 解压zip -->
         <dependency>
             <groupId>org.apache.ant</groupId>

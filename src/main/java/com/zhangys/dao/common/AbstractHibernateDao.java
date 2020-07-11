@@ -5,8 +5,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
 public abstract class AbstractHibernateDao<T extends Serializable> implements IOperation<T> {
     private Class<T> clazz;
 
-    @Resource(name = "sessionFactory")
+    @Autowired
     private SessionFactory sessionFactory;
 
     public AbstractHibernateDao() { }

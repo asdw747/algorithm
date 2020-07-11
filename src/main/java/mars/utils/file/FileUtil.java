@@ -5,10 +5,10 @@ import org.apache.tools.zip.ZipFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ResourceUtils;
-import sun.misc.BASE64Decoder;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -50,11 +50,11 @@ public class FileUtil {
     }
 
     public static File getImage(String image, TempDir tempDir) {
-        BASE64Decoder decoder = new BASE64Decoder();
+        Base64.Decoder decoder = Base64.getDecoder();
         File file = tempDir.newFile();
         try {
             OutputStream outStream = new FileOutputStream(file);
-            outStream.write(decoder.decodeBuffer(image));
+            outStream.write(decoder.decode(image));
         } catch (IOException e) {
             LOGGER.error("转换图片出错！, {}", ExceptionUtils.getStackTrace(e));
             return null;

@@ -4,10 +4,10 @@ import com.zhangys.entity.DepartmentEntity;
 import com.zhangys.entity.UserEntity;
 import com.zhangys.service.IUserService;
 import com.zhangys.service.impl.DepartmentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import javax.annotation.Resource;
 
 /**
  * Created by 123 on 2017/2/21.
@@ -16,10 +16,10 @@ import javax.annotation.Resource;
 @RequestMapping(value = "/test")
 public class TestController {
 
-    @Resource(name = "UserService")
+    @Autowired
     private IUserService userService;
 
-    @Resource(name = "DepartmentService")
+    @Autowired
     private DepartmentService departmentService;
 
     //访问地址：http://localhost:8080/Test/returnSuccess
