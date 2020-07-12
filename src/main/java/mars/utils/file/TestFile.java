@@ -1,79 +1,54 @@
 package mars.utils.file;
 
 import com.google.common.collect.Lists;
+import mars.utils.MyStringUtil;
 import mars.utils.cryptor.DESedeUtil;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
-import org.apache.tools.zip.ZipFile;
-
 import java.io.*;
-import java.util.Enumeration;
+import java.util.Arrays;
 import java.util.List;
 
 public class TestFile {
 
+    private static final String ROOT_DATA_DIR = "/home/zhangys/project_tmp/";
+
     public static void main(String [] args) {
 
-//        tarGz();
 //        unTarGz();
-        FileUtil.unZipFiles("/home/mi/project_tmp/3423214565255544997.zip", "/home/mi/project_tmp/ok");
+//        FileUtil.unZipFiles("/home/mi/project_tmp/3423214565255544997.zip", "/home/mi/project_tmp/ok");
+
+        tarGz();
+        unTarGz();
 
     }
 
     private static void tarGz() {
+        CompressFile compressFileA = new CompressFile("a.txt",ROOT_DATA_DIR + "resource/a.txt");
+        CompressFile compressFileB = new CompressFile("b.txt",ROOT_DATA_DIR + "resource/b.txt");
+        List<CompressFile> compressFiles = Arrays.asList(compressFileA, compressFileB);
+
+        String fileName = MyStringUtil.getRandomString(5) + ".tar.gz";
+        File outFile = new File(ROOT_DATA_DIR + fileName);
         try {
-            long instructionId = 123456789L;
-
-            List<CompressItem> compressFileList = Lists.newArrayList();
-
-            File fileFromSign = new File("/home/mi/3412253366066085888.pdf");// 合同文件地址
-            compressFileList.add(new CompressItem(instructionId + "_G.pdf", FileUtil.file2Bytes(fileFromSign.getAbsolutePath())));
-
-            byte[] bytes = CompressUtils.tarAndGzip(compressFileList);
-            FileUtil.buff2File(bytes,instructionId + ".tar.gz");
-
-            File compressFile = new File(instructionId + ".tar.gz");
-            FileInputStream inputStream = new FileInputStream(compressFile);
-
-            FileOutputStream outputStream = new FileOutputStream(new File("/home/mi/桌面/temp/bbb.tar.gz"));
-            int ch = 0;
-            try {
-                while((ch=inputStream.read()) != -1){
-                    outputStream.write(ch);
-                }
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            } finally{
-                //关闭输入流等（略）
-                outputStream.close();
-                inputStream.close();
-            }
-
-
-        } catch (Exception e) {
-            System.currentTimeMillis();
+            CompressUtils.tarAndGzip(compressFiles,new FileOutputStream(outFile));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
+
     private static void unTarGz() {
         try {
-            File file = new File("/home/mi/桌面/temp/bbb.tar.gz");
-//            byte [] bytes = FileUtil.file2Bytes("/home/mi/桌面/temp/bbb.tar.gz");
+            String tarGzName = "4wj1f";
+            File file = new File(ROOT_DATA_DIR + tarGzName + ".tar.gz");
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
 
-            BufferedInputStream bis =
-                    new BufferedInputStream(new FileInputStream(file));
+            String finalName = ROOT_DATA_DIR + tarGzName + ".tar";
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(finalName));
 
-            String fileName =
-                    file.getName().substring(0, file.getName().lastIndexOf("."));
-
-            String finalName = "/home/mi/桌面/temp/bbb.tar";
-
-            BufferedOutputStream bos =
-                    new BufferedOutputStream(new FileOutputStream(finalName));
-
-            GzipCompressorInputStream gcis =
-                    new GzipCompressorInputStream(bis);
+            GzipCompressorInputStream gcis = new GzipCompressorInputStream(bis);
 
             byte[] buffer = new byte[1024];
             int read = -1;
@@ -84,9 +59,8 @@ public class TestFile {
             bos.close();
 
             unCompressTar(finalName);
-
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
     }
@@ -95,12 +69,10 @@ public class TestFile {
 
         File file = new File(finalName);
         String parentPath = file.getParent();
-        TarArchiveInputStream tais =
-                new TarArchiveInputStream(new FileInputStream(file));
+        TarArchiveInputStream tarArchiveInputStream = new TarArchiveInputStream(new FileInputStream(file));
 
-        TarArchiveEntry tarArchiveEntry = null;
-
-        while((tarArchiveEntry = tais.getNextTarEntry()) != null){
+        TarArchiveEntry tarArchiveEntry;
+        while((tarArchiveEntry = tarArchiveInputStream.getNextTarEntry()) != null){
             String name = tarArchiveEntry.getName();
             File tarFile = new File(parentPath, name);
             if(!tarFile.getParentFile().exists()){
@@ -112,13 +84,13 @@ public class TestFile {
 
             int read = -1;
             byte[] buffer = new byte[1024];
-            while((read = tais.read(buffer)) != -1){
+            while((read = tarArchiveInputStream.read(buffer)) != -1){
                 bos.write(buffer, 0, read);
             }
             bos.close();
         }
-        tais.close();
-        file.delete();//删除tar文件
+        tarArchiveInputStream.close();
+//        file.delete();//删除tar文件
     }
 
     private static void zipAndCry() {

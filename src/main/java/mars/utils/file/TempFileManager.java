@@ -10,10 +10,7 @@ import java.util.UUID;
 public class TempFileManager {
 
     private Logger logger = LoggerFactory.getLogger(TempFileManager.class);
-    private String dirPrefix = null;
-
-    public TempFileManager() {
-    }
+    private String dirPrefix;
 
     public TempFileManager(String dirPrefix) {
         this.dirPrefix = dirPrefix;
@@ -75,9 +72,9 @@ public class TempFileManager {
         if (StringUtils.isBlank(dirPrefix)) {
             throw new RuntimeException("dirPrefix路径前缀不能为空");
         } else {
-            String osname = System.getProperty("os.name");
-            if (!StringUtils.containsIgnoreCase(osname, "windows") && !dirPrefix.startsWith("/tmp/") && !StringUtils.equals("/tmp", dirPrefix)) {
-                this.logger.warn("系统[{}], 临时文件没有创建在/tmp/目录下, 请注意及时清理[{}]目录", osname, dirPrefix);
+            String osName = System.getProperty("os.name");
+            if (!StringUtils.containsIgnoreCase(osName, "windows") && !dirPrefix.startsWith("/tmp/") && !StringUtils.equals("/tmp", dirPrefix)) {
+                this.logger.warn("系统[{}], 临时文件没有创建在/tmp/目录下, 请注意及时清理[{}]目录", osName, dirPrefix);
             }
 
             this.dirPrefix = StringUtils.stripEnd(dirPrefix, File.separator);
