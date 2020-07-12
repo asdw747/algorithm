@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class GsonTest {
+public class TestJson {
     public static ObjectMapper objectMapper = new ObjectMapper();
     public static Gson gson = new Gson();
 

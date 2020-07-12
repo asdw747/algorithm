@@ -60,11 +60,9 @@ public class SignUtil {
         Preconditions.checkArgument(!paramsMap.isEmpty(), "paramsMap might be empty");
         paramsMap.remove("sign");
         StringBuilder sb = new StringBuilder();
-        Iterator<Map.Entry<String,Object>> var2 = paramsMap.entrySet().iterator();
 
-        while(var2.hasNext()) {
-            Map.Entry<String, Object> each = var2.next();
-            sb.append(each.getKey() + "=" + each.getValue() + "&");
+        for (Map.Entry<String, Object> each : paramsMap.entrySet()) {
+            sb.append(each.getKey()).append("=").append(each.getValue()).append("&");
         }
 
         return sb.substring(0, sb.length() - 1);

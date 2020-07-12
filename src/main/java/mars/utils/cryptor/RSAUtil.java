@@ -5,6 +5,7 @@ import org.apache.commons.codec.binary.Base64;
 import javax.crypto.Cipher;
 import java.io.*;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -15,15 +16,12 @@ import java.security.spec.X509EncodedKeySpec;
 
 /**
  * @author Mr.Zheng
- * @date 2014年8月22日 下午1:44:23
  */
 public final class RSAUtil {
 	private static final String RSA = "RSA";
 
 	/**
 	 * 随机生成RSA密钥对(默认密钥长度为1024)
-	 * 
-	 * @return
 	 */
 	public static KeyPair generateRSAKeyPair() {
 		return generateRSAKeyPair(1024);
@@ -35,7 +33,6 @@ public final class RSAUtil {
 	 * @param keyLength
 	 *            密钥长度，范围：512～2048<br>
 	 *            一般1024
-	 * @return
 	 */
 	public static KeyPair generateRSAKeyPair(int keyLength) {
 		try {
@@ -57,12 +54,16 @@ public final class RSAUtil {
 		return rsaPrivateKey.getModulus().bitLength();
 	}
 
+	/**
+	 * 用公钥加密
+	 * 默认返回结果用base64编码
+	 */
 	public static String encryptByPublicKey(String plainText, String publicKey) {
 		try {
 			PublicKey pubKey = loadPublicKey(publicKey);
-			Cipher cipher = Cipher.getInstance("RSA");
-			cipher.init(1, pubKey);
-			byte[] enBytes = cipher.doFinal(plainText.getBytes("utf-8"));
+			Cipher cipher = Cipher.getInstance(RSA);
+			cipher.init(Cipher.ENCRYPT_MODE, pubKey);
+			byte[] enBytes = cipher.doFinal(plainText.getBytes(StandardCharsets.UTF_8));
 			return Base64.encodeBase64String(enBytes);
 		} catch (Exception var5) {
 			return null;
@@ -70,13 +71,7 @@ public final class RSAUtil {
 	}
 
 	/**
-	 * 用公钥加密 <br>
-	 * 每次加密的字节数，不能超过密钥的长度值减去11
-	 * 
-	 * @param data
-	 *            需加密数据的byte数据
-	 * @param publicKey 公钥
-	 * @return 加密后的byte型数据
+	 * 用公钥加密
 	 */
 	public static byte[] encryptData(byte[] data, PublicKey publicKey) {
 		try {
@@ -109,11 +104,15 @@ public final class RSAUtil {
 		}
 	}
 
+	/**
+	 * 用私钥解密
+	 * 默认参数需要用base64解码
+	 */
 	public static String decryptByPrivateKey(String enStr, String privateKey) {
 		try {
 			PrivateKey priKey = loadPrivateKey(privateKey);
-			Cipher cipher = Cipher.getInstance("RSA");
-			cipher.init(2, priKey);
+			Cipher cipher = Cipher.getInstance(RSA);
+			cipher.init(Cipher.DECRYPT_MODE, priKey);
 			byte[] deBytes = cipher.doFinal(Base64.decodeBase64(enStr));
 			return new String(deBytes);
 		} catch (Exception var5) {
@@ -123,12 +122,7 @@ public final class RSAUtil {
 
 	/**
 	 * 用私钥解密
-	 * 
-	 * @param encryptedData
-	 *            经过encryptedData()加密返回的byte数据
-	 * @param privateKey
-	 *            私钥
-	 * @return
+	 * 加密的字节数，不能超过密钥的长度值减去11
 	 */
 	public static byte[] decryptData(byte[] encryptedData, PrivateKey privateKey) {
 		try {
@@ -162,42 +156,24 @@ public final class RSAUtil {
 
 	/**
 	 * 通过公钥byte[](publicKey.getEncoded())将公钥还原，适用于RSA算法
-	 * 
-	 * @param keyBytes
-	 * @return
-	 * @throws NoSuchAlgorithmException
-	 * @throws InvalidKeySpecException
 	 */
 	public static PublicKey getPublicKey(byte[] keyBytes) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
 		KeyFactory keyFactory = KeyFactory.getInstance(RSA);
-		PublicKey publicKey = keyFactory.generatePublic(keySpec);
-		return publicKey;
+		return keyFactory.generatePublic(keySpec);
 	}
 
 	/**
 	 * 通过私钥byte[]将公钥还原，适用于RSA算法
-	 * 
-	 * @param keyBytes
-	 * @return
-	 * @throws NoSuchAlgorithmException
-	 * @throws InvalidKeySpecException
 	 */
 	public static PrivateKey getPrivateKey(byte[] keyBytes) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
 		KeyFactory keyFactory = KeyFactory.getInstance(RSA);
-		PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
-		return privateKey;
+		return keyFactory.generatePrivate(keySpec);
 	}
 
 	/**
 	 * 使用N、e值还原公钥
-	 * 
-	 * @param modulus
-	 * @param publicExponent
-	 * @return
-	 * @throws NoSuchAlgorithmException
-	 * @throws InvalidKeySpecException
 	 */
 	public static PublicKey getPublicKey(String modulus, String publicExponent)
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -205,18 +181,11 @@ public final class RSAUtil {
 		BigInteger bigIntPrivateExponent = new BigInteger(publicExponent);
 		RSAPublicKeySpec keySpec = new RSAPublicKeySpec(bigIntModulus, bigIntPrivateExponent);
 		KeyFactory keyFactory = KeyFactory.getInstance(RSA);
-		PublicKey publicKey = keyFactory.generatePublic(keySpec);
-		return publicKey;
+		return keyFactory.generatePublic(keySpec);
 	}
 
 	/**
 	 * 使用N、d值还原私钥
-	 * 
-	 * @param modulus
-	 * @param privateExponent
-	 * @return
-	 * @throws NoSuchAlgorithmException
-	 * @throws InvalidKeySpecException
 	 */
 	public static PrivateKey getPrivateKey(String modulus, String privateExponent)
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -224,24 +193,18 @@ public final class RSAUtil {
 		BigInteger bigIntPrivateExponent = new BigInteger(privateExponent);
 		RSAPublicKeySpec keySpec = new RSAPublicKeySpec(bigIntModulus, bigIntPrivateExponent);
 		KeyFactory keyFactory = KeyFactory.getInstance(RSA);
-		PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
-		return privateKey;
+		return keyFactory.generatePrivate(keySpec);
 	}
 
 	/**
 	 * 从字符串中加载公钥
-	 * 
-	 * @param publicKeyStr
-	 *            公钥数据字符串
-	 * @throws Exception
-	 *             加载公钥时产生的异常
 	 */
 	public static PublicKey loadPublicKey(String publicKeyStr) throws Exception {
 		try {
 			byte[] buffer = Base64Util.decode(publicKeyStr);
 			KeyFactory keyFactory = KeyFactory.getInstance(RSA);
 			X509EncodedKeySpec keySpec = new X509EncodedKeySpec(buffer);
-			return (RSAPublicKey) keyFactory.generatePublic(keySpec);
+			return keyFactory.generatePublic(keySpec);
 		} catch (NoSuchAlgorithmException e) {
 			throw new Exception("无此算法");
 		} catch (InvalidKeySpecException e) {
@@ -254,10 +217,6 @@ public final class RSAUtil {
 	/**
 	 * 从字符串中加载私钥<br>
 	 * 加载时使用的是PKCS8EncodedKeySpec（PKCS#8编码的Key指令）。
-	 *
-	 * @param privateKeyStr
-	 * @return
-	 * @throws Exception
 	 */
 	public static PrivateKey loadPrivateKey(String privateKeyStr) throws Exception {
 		try {
@@ -265,7 +224,7 @@ public final class RSAUtil {
 			// X509EncodedKeySpec keySpec = new X509EncodedKeySpec(buffer);
 			PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(buffer);
 			KeyFactory keyFactory = KeyFactory.getInstance(RSA);
-			return (RSAPrivateKey) keyFactory.generatePrivate(keySpec);
+			return keyFactory.generatePrivate(keySpec);
 		} catch (NoSuchAlgorithmException e) {
 			throw new Exception("无此算法");
 		} catch (InvalidKeySpecException e) {
@@ -277,11 +236,6 @@ public final class RSAUtil {
 
 	/**
 	 * 从文件中输入流中加载公钥
-	 * 
-	 * @param in
-	 *            公钥输入流
-	 * @throws Exception
-	 *             加载公钥时产生的异常
 	 */
 	public static PublicKey loadPublicKey(InputStream in) throws Exception {
 		try {
@@ -295,10 +249,6 @@ public final class RSAUtil {
 
 	/**
 	 * 从文件中加载私钥
-	 * 
-	 * @param in 私钥文件名
-	 * @return 是否成功
-	 * @throws Exception
 	 */
 	public static PrivateKey loadPrivateKey(InputStream in) throws Exception {
 		try {
@@ -312,18 +262,14 @@ public final class RSAUtil {
 
 	/**
 	 * 读取密钥信息
-	 * 
-	 * @param in
-	 * @return
-	 * @throws IOException
 	 */
 	private static String readKey(InputStream in) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
-		String readLine = null;
+		String readLine;
 		StringBuilder sb = new StringBuilder();
 		while ((readLine = br.readLine()) != null) {
 			if (readLine.charAt(0) == '-') {
-				continue;
+
 			} else {
 				sb.append(readLine);
 				sb.append('\r');
@@ -335,8 +281,6 @@ public final class RSAUtil {
 
 	/**
 	 * 打印公钥信息
-	 * 
-	 * @param publicKey
 	 */
 	public static void printPublicKeyInfo(PublicKey publicKey) {
 		RSAPublicKey rsaPublicKey = (RSAPublicKey) publicKey;
@@ -345,6 +289,8 @@ public final class RSAUtil {
 		System.out.println("Modulus=" + rsaPublicKey.getModulus().toString());
 		System.out.println("PublicExponent.length=" + rsaPublicKey.getPublicExponent().bitLength());
 		System.out.println("PublicExponent=" + rsaPublicKey.getPublicExponent().toString());
+		//TODO 秘钥对象转字符串存疑
+		System.out.println("PublicKey=" + Base64Util.encode(publicKey.getEncoded()));
 	}
 
 	public static void printPrivateKeyInfo(PrivateKey privateKey) {
@@ -353,22 +299,10 @@ public final class RSAUtil {
 		System.out.println("Modulus.length=" + rsaPrivateKey.getModulus().bitLength());
 		System.out.println("Modulus=" + rsaPrivateKey.getModulus().toString());
 		System.out.println("PrivateExponent.length=" + rsaPrivateKey.getPrivateExponent().bitLength());
-		System.out.println("PrivatecExponent=" + rsaPrivateKey.getPrivateExponent().toString());
+		System.out.println("PrivateExponent=" + rsaPrivateKey.getPrivateExponent().toString());
+		//TODO 存疑
+		System.out.println("PrivateKey=" + Base64Util.encode(privateKey.getEncoded()));
 
 	}
 
-
-	public static void main(String[] args){
-		String pK = "";
-		String p = "";
-		try {
-			PublicKey publicKey =loadPublicKey(pK);
-			System.out.println(publicKey);
-
-			PrivateKey privateKey = loadPrivateKey(p);
-			System.out.println(privateKey);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 }

@@ -11,7 +11,7 @@ import java.io.*;
 import java.util.Enumeration;
 import java.util.List;
 
-public class FileTest {
+public class TestFile {
 
     public static void main(String [] args) {
 

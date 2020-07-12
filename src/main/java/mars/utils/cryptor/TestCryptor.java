@@ -1,15 +1,12 @@
 package mars.utils.cryptor;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
-import org.apache.commons.codec.binary.Base64;
+import lombok.extern.slf4j.Slf4j;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyPair;
+import java.util.*;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
-
-public class CrytorTest {
+@Slf4j
+public class TestCryptor {
 
     private static String RSA_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA28V/TvLUN5CZM5RAejRI\n" +
             "QUvo/J8gM2k+RWolMx+WVctsR+sEwtjPZRzv72sCXJgQH0rsISkZ0MEdTnlFi4N/\n" +
@@ -48,8 +45,19 @@ public class CrytorTest {
 
 
     public static void main(String [] args) {
+
+        testKey();
+
 //        encryptAndDecrypt();
-        signAndUnSign();
+//
+//        signAndUnSign();
+
+    }
+
+    private static void testKey() {
+        KeyPair keyPair = RSAUtil.generateRSAKeyPair(2048);
+        RSAUtil.printPublicKeyInfo(keyPair.getPublic());
+        RSAUtil.printPrivateKeyInfo(keyPair.getPrivate());
     }
 
     private static void encryptAndDecrypt() {
@@ -59,15 +67,31 @@ public class CrytorTest {
         try {
             //模拟发送消息流程
             String data = "a";
+            System.out.println("originData:" + data);
+
             String aesKey = AESUtil.generateAESKey();//返回base64 string
+            System.out.println("aesKey:" + aesKey);
+            assert aesKey != null;
             String encryptData = AESUtil.encrypt(data, aesKey);
-//            String encryptKey = RSAUtils.encryptByPublicKey(aesKey, miPublicKey);
-            String encryptKey =  Base64.encodeBase64String(RSAUtil.encryptData(aesKey.getBytes("utf-8"), RSAUtil.loadPublicKey(publicKey)));
+//            String encryptKey = RSAUtil.encryptByPublicKey(aesKey, publicKey);
+            String encryptKey =  Base64Util.encode(
+                    Objects.requireNonNull(
+                            RSAUtil.encryptData(aesKey.getBytes(StandardCharsets.UTF_8), RSAUtil.loadPublicKey(publicKey))
+                    )
+            );
+            System.out.println("encryptData:" + encryptData);
+            System.out.println("encryptKey:"+ encryptKey);
 
             //模拟接受消息流程
-//            String decryptKey = RSAUtils.decryptByPrivateKey(encryptKey, miPrivateKey);
-            String decryptKey = new String(RSAUtil.decryptData(Base64.decodeBase64(encryptKey), RSAUtil.loadPrivateKey(privateKey)));
+//            String decryptKey = RSAUtil.decryptByPrivateKey(encryptKey, privateKey);
+            String decryptKey = new String(
+                    Objects.requireNonNull(
+                            RSAUtil.decryptData(Base64Util.decode(encryptKey), RSAUtil.loadPrivateKey(privateKey))
+                    )
+            );
             String decryptData = AESUtil.decrypt(encryptData, decryptKey);
+            System.out.println("decryptData:" + decryptData);
+            System.out.println("decryptKey:"+ decryptKey);
 
             System.currentTimeMillis();
         } catch (Exception e) {
@@ -76,15 +100,15 @@ public class CrytorTest {
     }
 
     private static void signAndUnSign() {
-        String miPublicKey = RSA_PUBLIC_KEY;
-        String miPrivateKey = RSA_PRIVATE_KEY;
+        String publicKey = RSA_PUBLIC_KEY;
+        String privateKey = RSA_PRIVATE_KEY;
 
         Map<String, Object> map = new HashMap<>();
         map.put("a", "b");
-        String sign = SignUtil.signByPrivateKey(map, miPrivateKey);
+        String sign = SignUtil.signByPrivateKey(map, privateKey);
 
         map.put("sign", sign);
-        boolean check = SignUtil.verifySign(map, miPublicKey);
+        boolean check = SignUtil.verifySign(map, publicKey);
         System.out.println(check);
     }
 }

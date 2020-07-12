@@ -13,11 +13,11 @@ import java.security.NoSuchAlgorithmException;
 public class AESUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(AESUtil.class);
 
-    public static final String KEY_ALGORITHM = "AES";
-    public static final String ENCODING = "utf-8";
+    private static final String KEY_ALGORITHM = "AES";
+    private static final String ENCODING = "utf-8";
 
     public static String generateAESKey() {
-        KeyGenerator keyGenerator = null;
+        KeyGenerator keyGenerator;
 
         try {
             keyGenerator = KeyGenerator.getInstance(KEY_ALGORITHM);
@@ -58,15 +58,6 @@ public class AESUtil {
             LOGGER.error("decrypt error", var6);
             return null;
         }
-    }
-
-    public static void main(String[] args) throws NoSuchAlgorithmException {
-        String content = "test";
-        String key = generateAESKey();
-        System.out.println("加密前：" + content);
-        String encryptResult = encrypt(content, key);
-        String decryptResult = decrypt(encryptResult, key);
-        System.out.println("解密后：" + new String(decryptResult));
     }
 
 }
