@@ -1,94 +1,121 @@
 package mars.leetcode.tree;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class TreeBuilder {
 
-    public static String ORIGIN_CONTENT = "[50[40[30,45[44,46]],60[,70]]]";
+    private static List<Character> specialChar = Arrays.asList('(', ')', ',', ' ');
 
-    public static List<Character> specialChar = Arrays.asList('[', ']', ',', ' ');
+    private static ThreadLocal<String> localInput = new ThreadLocal<>();
 
-    public static TreeNode generate() {
-        TreeNode node = new TreeNode(50);
+    public static TreeNode generate(String input) {
+        localInput.set(input);
+        String originInput = localInput.get();
+        validate(originInput);
 
-        internal(node, 3);
+        TreeNode node = getRootNode(originInput);
+        System.out.println("print node:" + node.toString());
+
+        generateInternal(node, originInput.toCharArray());
+        System.out.println("generate complete tree ok.");
         return node;
     }
 
+    private static void validate(String originInput) {
+        if(originInput == null)
+            throw new RuntimeException("no valid input");
 
-    public static void internal(TreeNode node, int offset) {
-        char[] content = ORIGIN_CONTENT.toCharArray();
+        Pattern pattern = Pattern.compile("^\\d+(\\d|[(]|[)]|,)+");
+        if(!pattern.matcher(originInput).matches()) {
+            throw new RuntimeException("no valid input");
+        }
+    }
+
+    private static TreeNode getRootNode(String originInput) {
+        char[] content = originInput.toCharArray();
+        int rootValue;
+        StringBuilder currentValueStr = new StringBuilder();
+
+        int index = 0;
+        while (index<content.length && !specialChar.contains(content[index])) {
+            currentValueStr.append(content[index]);
+            index ++;
+        }
+
+        rootValue = NumberUtils.toInt(currentValueStr.toString());
+        return new TreeNode(rootValue);
+    }
+
+    /**
+     * input: 50(40(30,),60(55,70))
+     * generated value: 40  60
+     * generated input: 40(30,)  60(55,70)
+     */
+    private static void generateInternal(TreeNode node, char[] itemInput) {
+        if (itemInput.length<=0) {
+            return;
+        }
+
+        int start = 0;
+        int end = 0;
 
         int score = 0;
-        String currentValueStr = "";
-        int leftNodeValue = -1;
-        int leftOffset = 0;
-        int rightNodeValue = -1;
-        int rightOffset = 0;
         boolean half = false;
-        for (int i=offset; i<content.length; i++) {
-            //计算当前score
-            if (content[i] == '[') {
+
+        StringBuilder currentStr = new StringBuilder();
+        for (int i=0; i<itemInput.length; i++) {
+            char tmp = itemInput[i];
+            if (itemInput[i] == '(') {
                 score ++;
-            } else if (content[i] == ']') {
+                if (score == 1) {
+                    start = i+1;
+                }
+            }
+
+            if (itemInput[i] == ')') {
                 score --;
             }
 
-            if (score != 1) {
-                if (score == 2 && content[i] == '[' && !half) {
-                    leftOffset = i;
-                    continue;
-                }
-
-                if (score == 2 && content[i] == '[' && half) {
-                    rightOffset = i;
-                    continue;
-                }
-
-                continue;
+            if (score == 1 && !specialChar.contains(itemInput[i])) {
+                currentStr.append(itemInput[i]);
             }
 
-            if (content[i] == ',') {
+            if (score==1 && itemInput[i] == ',') {
+                //遇到本层级的','，进行左子树递归
                 half = true;
-            }
+                end = i;
 
-            int currentValue = -1;
-            if (specialChar.contains(content[i])) {
-                //遇到特殊字符，生成currentValue
-                if (StringUtils.isNotBlank(currentValueStr)) {
-                    currentValue = NumberUtils.toInt(currentValueStr);
-                    currentValueStr = "";
+                if (StringUtils.isNotBlank(currentStr)) {
+                    int currentValue = NumberUtils.toInt(currentStr.toString());
+                    TreeNode leftNode = new TreeNode(currentValue);
+                    node.setLeft(leftNode);
+                    char[] leftItemInput = ArrayUtils.subarray(itemInput, start, end);
+                    generateInternal(leftNode, leftItemInput);
                 }
-            } else {
-                currentValueStr += content[i];
-                continue;
+
+                start = i+1;
+                currentStr = new StringBuilder();
             }
 
+            if (score==0 && half) {
+                //本层级遍历完毕，进行右子树递归
+                end = i;
 
-            if (leftNodeValue == -1) {
-                leftNodeValue = currentValue;
-            } else if (content[i]!=',') {
-                rightNodeValue = currentValue;
+                if (StringUtils.isNotBlank(currentStr)) {
+                    int currentValue = NumberUtils.toInt(currentStr.toString());
+                    TreeNode rightNode = new TreeNode(currentValue);
+                    node.setRight(rightNode);
+                    char[] rightItemInput = ArrayUtils.subarray(itemInput, start, end);
+                    generateInternal(rightNode, rightItemInput);
+                }
+
             }
-
         }
-
-        TreeNode leftNode = new TreeNode(leftNodeValue);
-        TreeNode rightNode = new TreeNode(rightNodeValue);
-        node.setLeft(leftNode);
-        node.setRight(rightNode);
-
-        if (leftOffset != 0) {
-            internal(leftNode, leftOffset);
-        }
-
-        if (rightOffset != 0) {
-            internal(rightNode, rightOffset);
-        }
-
     }
 
 }
