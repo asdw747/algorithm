@@ -44,7 +44,26 @@ public class TreePrintUtil {
      * 4 2 5 1 6 3 7
      */
     public static void printUseInOrder(TreeNode rootNode) {
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        stack.push(rootNode);
+        boolean needInLeft = true;
+        while (!stack.empty()) {
+            TreeNode currentNode = stack.pop();
+            if (needInLeft && currentNode.getLeft() != null) {
+                stack.push(currentNode);
+                stack.push(currentNode.getLeft());
 
+                continue;
+            }
+
+            //左子树到最深了
+            needInLeft = false;
+            System.out.print(currentNode.getValue() + " ");
+            if (currentNode.getRight() != null) {
+                stack.push(currentNode.getRight());
+                needInLeft = true;
+            }
+        }
     }
 
     /**
