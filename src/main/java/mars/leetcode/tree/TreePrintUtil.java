@@ -1,7 +1,5 @@
 package mars.leetcode.tree;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
 public class TreePrintUtil {
@@ -42,9 +40,13 @@ public class TreePrintUtil {
      * 中序遍历
      * 第一次经过时不访问，等遍历完左子树之后再访问，然后遍历右子树
      * 4 2 5 1 6 3 7
+     *
+     * 方法：
+     *   1.栈依次存入左节点所有点，直到最左侧在栈底
+     *   2.开始抛出栈底并访问，(例如第一个抛出4)。如果有右节点，那么打印当前节点后，将右节点加入栈中，然后重复1
      */
     public static void printUseInOrder(TreeNode rootNode) {
-        Stack<TreeNode> stack = new Stack<TreeNode>();
+        Stack<TreeNode> stack = new Stack<>();
         stack.push(rootNode);
         boolean needInLeft = true;
         while (!stack.empty()) {
@@ -64,15 +66,43 @@ public class TreePrintUtil {
                 needInLeft = true;
             }
         }
+
+        System.out.println();
     }
 
     /**
      * 后序遍历
      * 第一次和第二次经过时都不访问，等遍历完该节点的左右子树之后，最后访问该节点
-     * 4 5 2 5 7 3 1
+     * 4 5 2 6 7 3 1
+     *
+     * 1.申请一个栈s1，然后将头节点压入栈s1中。
+     * 2.从s1中弹出的节点记为cur，然后依次将cur的左孩子节点和右孩子节点压入s1中。
+     * 3.在整个过程中，每一个从s1中弹出的节点都放进s2中。
+     * 4.不断重复步骤2和步骤3，直到s1为空，过程停止。
+     * 5.从s2中依次弹出节点并打印，打印的顺序就是后序遍历的顺序。
      */
     public static void printUsePostOrder(TreeNode rootNode) {
+        Stack<TreeNode> stack1 = new Stack<>();
+        Stack<TreeNode> stack2 = new Stack<>();
+        stack1.push(rootNode);
+        while (!stack1.empty()) {
+            TreeNode treeNode = stack1.pop();
+            stack2.push(treeNode);
+            if (treeNode.getLeft() != null) {
+                stack1.push(treeNode.getLeft());
+            }
 
+            if (treeNode.getRight() != null) {
+                stack1.push(treeNode.getRight());
+            }
+        }
+
+        while (!stack2.empty()) {
+            TreeNode treeNode = stack2.pop();
+            System.out.print(treeNode.getValue() + " ");
+        }
+
+        System.out.println();
     }
 
     /**

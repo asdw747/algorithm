@@ -1,6 +1,6 @@
 package mars.leetcode.tree;
 
-public class TreePrint {
+public class TreeTest {
 
     public static void main(String [] args) {
 //        String treeInput = "50(40(30,),60(55,70))";
@@ -12,6 +12,8 @@ public class TreePrint {
 
         TreePrintUtil.printUseTreeModel(rootNode);
         TreePrintUtil.printUsePreOrder(rootNode);
+        TreePrintUtil.printUseInOrder(rootNode);
+        TreePrintUtil.printUsePostOrder(rootNode);
     }
 
 }

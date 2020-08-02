@@ -69,7 +69,6 @@ public class TreeBuilder {
 
         StringBuilder currentStr = new StringBuilder();
         for (int i=0; i<itemInput.length; i++) {
-            char tmp = itemInput[i];
             if (itemInput[i] == '(') {
                 score ++;
                 if (score == 1) {
