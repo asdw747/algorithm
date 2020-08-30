@@ -21,10 +21,13 @@ public class WaterContainer {
     public static void main(String [] args) {
 
         List<Integer> items = Arrays.asList(1,8,6,2,5,4,8,3,7);
-        System.out.println(count(items));
+        System.out.println(count2(items));
 
     }
 
+    /*
+    双指针同时移动方案更好
+     */
     private static int count(List<Integer> input) {
         int volume = 0;
         for (int i=0; i<input.size(); i++) {
@@ -37,6 +40,30 @@ public class WaterContainer {
                 volume = Math.max((end - begin) * Math.min(beginValue, endValue), volume) ;
 
                 end ++;
+            }
+        }
+
+        return volume;
+    }
+
+    /*
+    双指针方案
+     */
+    private static int count2(List<Integer> input) {
+        int volume = 0;
+
+        int begin = 0;
+        int end = input.size() -1;
+        while (end > begin) {
+            int beginValue = input.get(begin);
+            int endValue = input.get(end);
+
+            volume = Math.max(volume, (end-begin) * Math.min(beginValue, endValue));
+
+            if (endValue > beginValue) {
+                begin ++;
+            } else  {
+                end --;
             }
         }
 
