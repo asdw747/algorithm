@@ -1,4 +1,4 @@
-package mars.advanced.concurrent;
+package mars.advanced.concurrent.atomic;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
