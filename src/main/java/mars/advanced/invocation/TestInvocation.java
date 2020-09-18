@@ -9,7 +9,6 @@ public class TestInvocation {
 
     public static void main(String [] args) {
 //        useJDKProxy();
-
         useCglibProxy();
     }
 

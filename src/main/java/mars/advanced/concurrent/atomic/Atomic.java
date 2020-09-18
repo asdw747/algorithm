@@ -9,6 +9,10 @@ public class Atomic {
         System.out.println("ok");
 
         AtomicInteger i = new AtomicInteger(1);
+        i.set(99);
+        i.compareAndSet(100, 101);
+
+        System.out.println(i);
 
     }
 
