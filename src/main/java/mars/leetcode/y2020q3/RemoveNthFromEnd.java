@@ -1,7 +1,6 @@
 package mars.leetcode.y2020q3;
 
-import java.util.HashMap;
-import java.util.Map;
+import mars.leetcode.util.ListNode;
 
 public class RemoveNthFromEnd {
 
@@ -62,12 +61,5 @@ public class RemoveNthFromEnd {
 }
 
 
-class ListNode {
-    int val;
-    ListNode next;
 
-    ListNode(int x) {
-        val = x;
-    }
-}
 
