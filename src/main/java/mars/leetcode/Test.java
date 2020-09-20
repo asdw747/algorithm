@@ -1,9 +1,6 @@
 package mars.leetcode;
 
 
-import com.google.gson.Gson;
-import sun.font.FontDesignMetrics;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
