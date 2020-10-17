@@ -1,4 +1,4 @@
-package mars.leetcode.y2019m05;
+package mars.leetcode.y2019;
 
 import lombok.Data;
 

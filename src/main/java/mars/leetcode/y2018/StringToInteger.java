@@ -1,4 +1,4 @@
-package mars.leetcode.y2018m09;
+package mars.leetcode.y2018;
 
 public class StringToInteger {
 

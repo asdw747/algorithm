@@ -1,4 +1,4 @@
-package mars.leetcode.y2019m05;
+package mars.leetcode.y2019;
 
 import org.apache.commons.lang.math.NumberUtils;
 import java.io.BufferedReader;
