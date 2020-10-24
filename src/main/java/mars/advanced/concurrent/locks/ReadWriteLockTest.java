@@ -1,30 +1,47 @@
-package mars.advanced.concurrent;
+package mars.advanced.concurrent.locks;
+
+import org.junit.Test;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class ReadWriteLockExample {
+public class ReadWriteLockTest {
 
     public static ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
-    public static void main(String [] args) {
+    @Test
+    public void main() {
         //同时读、写
-        ExecutorService service = Executors.newCachedThreadPool();
-        service.execute(() -> {
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            readFile(Thread.currentThread());
-        });
+//        ExecutorService service = Executors.newCachedThreadPool();
+//        service.execute(() -> {
+//            try {
+//                Thread.sleep(20);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            readFile(Thread.currentThread());
+//        });
+//
+//        service.execute(() -> writeFile(Thread.currentThread()));
 
-        service.execute(() -> writeFile(Thread.currentThread()));
+        test();
+    }
+
+    private void test() {
+        lock.readLock().lock();
+        lock.readLock().lock();
+        lock.readLock().lock();
+        lock.readLock().unlock();
+
+        lock.writeLock().lock();
+        lock.writeLock().lock();
+
+        System.currentTimeMillis();
     }
 
     // 读操作
-    private static void readFile(Thread thread) {
+    private void readFile(Thread thread) {
         lock.readLock().lock();
         boolean readLock = lock.isWriteLocked();
         if (!readLock) {
@@ -47,7 +64,7 @@ public class ReadWriteLockExample {
     }
 
     // 写操作
-    private static void writeFile(Thread thread) {
+    private void writeFile(Thread thread) {
         lock.writeLock().lock();
         boolean writeLock = lock.isWriteLocked();
         if (writeLock) {
