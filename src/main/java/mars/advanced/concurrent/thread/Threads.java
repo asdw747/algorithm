@@ -1,4 +1,4 @@
-package mars.advanced.concurrent.executor;
+package mars.advanced.concurrent.thread;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
