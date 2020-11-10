@@ -30,7 +30,10 @@ public class SetZeroes {
         setZeroes(input);
     }
 
-    public void setZeroes(int[][] matrix) {
+    /**
+     * 解题思路：O(m*n)便利数组，记录需要置为0的行和列，在次遍历数组，原地修改至0
+     */
+    private void setZeroes(int[][] matrix) {
         int R = matrix.length;
         int C = matrix[0].length;
         Set<Integer> rows = new HashSet<Integer>();
