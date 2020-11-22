@@ -29,6 +29,11 @@ public class UniquePaths {
 
     }
 
+    /**
+     * 起点走到终点的步数时固定的，横向和纵向的步数也是固定的
+     * 本质上是排列组合的问题，从m+n个数中选出n个或m个可能的无视顺序组合，
+     *
+     */
     public int uniquePaths(int m, int n) {
         return PermuteUtil.allPermuteUseC(new int[m+n-2], m-1).size();
     }
