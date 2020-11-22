@@ -38,6 +38,9 @@ public class PartitionList {
 
     }
 
+    /**
+     * 一次遍历初始链表，生成两个新链表，小于x的追加到a链表，大于等于x的追加到b链表，最后合并a、b链表
+     */
     public ListNode partition(ListNode head, int x) {
         ListNode l1 = null;
         ListNode l2 = null;
@@ -46,6 +49,7 @@ public class PartitionList {
 
         while (head != null) {
             ListNode node = new ListNode(head.val);
+
             if (head.val<x) {
                 if (l1 == null) {
                     l1 = node;
