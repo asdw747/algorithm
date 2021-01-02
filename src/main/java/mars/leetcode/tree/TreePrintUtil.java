@@ -12,6 +12,7 @@ public class TreePrintUtil {
      * 4   5  6   7
      */
 
+
     /**
      * 先序遍历
      * 每遇到一个节点，先访问，然后再遍历其左右子树
@@ -23,7 +24,7 @@ public class TreePrintUtil {
         stack.push(rootNode);
         while (!stack.isEmpty()) {
             TreeNode treeNode = stack.pop();
-            System.out.print(treeNode.getValue() + " ");
+            System.out.print(treeNode.getVal() + " ");
             if (treeNode.getRight() != null) {
                 stack.push(treeNode.getRight());
             }
@@ -60,7 +61,7 @@ public class TreePrintUtil {
 
             //左子树到最深了
             needInLeft = false;
-            System.out.print(currentNode.getValue() + " ");
+            System.out.print(currentNode.getVal() + " ");
             if (currentNode.getRight() != null) {
                 stack.push(currentNode.getRight());
                 needInLeft = true;
@@ -99,7 +100,7 @@ public class TreePrintUtil {
 
         while (!stack2.empty()) {
             TreeNode treeNode = stack2.pop();
-            System.out.print(treeNode.getValue() + " ");
+            System.out.print(treeNode.getVal() + " ");
         }
 
         System.out.println();
@@ -110,7 +111,7 @@ public class TreePrintUtil {
      */
     public static void printUseTreeModel(TreeNode rootNode) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("├── ").append(rootNode.getValue());
+        stringBuilder.append("├── ").append(rootNode.getVal());
         String prefix = "  ";
         printUseTreeModelInternal(rootNode, stringBuilder, prefix);
         System.out.println(stringBuilder.toString());
@@ -124,13 +125,13 @@ public class TreePrintUtil {
         stringBuilder.append("\n");
         if (treeNode.getLeft() != null) {
             TreeNode left = treeNode.getLeft();
-            stringBuilder.append(prefix).append("├── ").append(left.getValue());
+            stringBuilder.append(prefix).append("├── ").append(left.getVal());
             printUseTreeModelInternal(left, stringBuilder, prefix + "  ");
         }
 
         if (treeNode.getRight() != null) {
             TreeNode right = treeNode.getRight();
-            stringBuilder.append(prefix).append("├── ").append(right.getValue());
+            stringBuilder.append(prefix).append("├── ").append(right.getVal());
             printUseTreeModelInternal(right, stringBuilder, prefix + "  ");
         }
     }

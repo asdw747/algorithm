@@ -5,17 +5,17 @@ import lombok.Data;
 @Data
 public class TreeNode {
 
-    private TreeNode left;
-    private TreeNode right;
+    public TreeNode left;
+    public TreeNode right;
 
-    private int value;
+    public int val;
 
     public TreeNode() {
 
     }
 
-    public TreeNode(int value) {
-        this.value = value;
+    public TreeNode(int val) {
+        this.val = val;
     }
 
     public static TreeNode init(int value) {
