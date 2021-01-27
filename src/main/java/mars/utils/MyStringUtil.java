@@ -1,5 +1,7 @@
 package mars.utils;
 
+import org.junit.Test;
+
 import java.util.Random;
 
 public class MyStringUtil {
@@ -13,6 +15,11 @@ public class MyStringUtil {
             sb.append(str.charAt(number));
         }
         return sb.toString();
+    }
+
+    @Test
+    public void test() {
+        System.out.println(MyStringUtil.getRandomString(24));
     }
 
 }
