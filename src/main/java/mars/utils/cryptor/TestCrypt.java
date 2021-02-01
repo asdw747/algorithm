@@ -22,13 +22,43 @@ public class TestCrypt {
     }
 
     @Test
-    public void testEncrypt() throws Exception {
+    public void encrypt() throws Exception {
         String publicKey = RSA_PUBLIC_KEY;
-        String privateKey = RSA_PRIVATE_KEY;
-        String originDate = "aaaa";
+        String originData = "aaaa";
+        System.out.println(originData);
         String encryptKey =  Base64Util.encode(
                 Objects.requireNonNull(
-                        RSAUtil.encryptData(originDate.getBytes(StandardCharsets.UTF_8), RSAUtil.loadPublicKey(publicKey))
+                        RSAUtil.encryptData(originData.getBytes(StandardCharsets.UTF_8), RSAUtil.loadPublicKey(publicKey))
+                )
+        );
+
+        System.out.println(encryptKey);
+    }
+
+
+    @Test
+    public void decrypt() throws Exception {
+        String privateKey = RSA_PRIVATE_KEY;
+        String encryptData = "";
+        System.out.println(encryptData);
+
+        String decryptKey = new String(
+                Objects.requireNonNull(
+                        RSAUtil.decryptData(Base64Util.decode(encryptData), RSAUtil.loadPrivateKey(privateKey))
+                )
+        );
+
+        System.out.println(decryptKey);
+    }
+
+    @Test
+    public void encryptAndDecrypt() throws Exception {
+        String publicKey = RSA_PUBLIC_KEY;
+        String privateKey = RSA_PRIVATE_KEY;
+        String originData = "aaaa";
+        String encryptKey =  Base64Util.encode(
+                Objects.requireNonNull(
+                        RSAUtil.encryptData(originData.getBytes(StandardCharsets.UTF_8), RSAUtil.loadPublicKey(publicKey))
                 )
         );
 
@@ -44,7 +74,7 @@ public class TestCrypt {
     }
 
     @Test
-    public void encryptAndDecrypt() {
+    public void AESSend() {
         String publicKey = RSA_PUBLIC_KEY;
         String privateKey = RSA_PRIVATE_KEY;
 

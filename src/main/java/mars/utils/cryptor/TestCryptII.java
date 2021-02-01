@@ -20,7 +20,7 @@ public class TestCryptII {
     public void test() {
         try {
             //模拟PAR发送消息流程
-            String data = "{\"loanReqNo\": 111, \"sourceCode\": \"360\", \"idType\":1, \"id\":\"21031782371921\", \"loanAmot\":999.99}";
+            String data = "";
             String encryptData =  Base64Util.encode(
                     Objects.requireNonNull(RSAUtil.encryptData(data.getBytes(StandardCharsets.UTF_8), RSAUtil.loadPublicKey(RSA_PUBLIC_KEY)))
             );
@@ -51,14 +51,13 @@ public class TestCryptII {
 
     @Test
     public void testReturn() throws Exception {
-
-
         //模拟PAR接受消息流程
         String encryptData = "";
         String sign = "";
 
         boolean verifySign = SignUtil.verifySign(encryptData, sign, RSA_PUBLIC_KEY);
         System.out.println("verifySign:" + verifySign);
+
         String decryptData = new String(
                 Objects.requireNonNull(
                         RSAUtil.decryptData(Base64Util.decode(encryptData), RSAUtil.loadPrivateKey(PAR_RSA_PRIVATE_KEY))
