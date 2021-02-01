@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 
 public class AESUtil {
@@ -57,6 +59,57 @@ public class AESUtil {
         } catch (Exception var6) {
             LOGGER.error("decrypt error", var6);
             return null;
+        }
+    }
+
+    public static String encryptDirectUseCBC(String content, String key) {
+        try {
+            byte[] byteContent = content.getBytes(ENCODING);
+            byte[] bytesKey = key.getBytes(StandardCharsets.UTF_8);
+            SecretKeySpec secretKey = new SecretKeySpec(bytesKey, KEY_ALGORITHM);
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(1, secretKey, new IvParameterSpec(initIV("AES/CBC/PKCS5Padding")));
+            byte[] result = cipher.doFinal(byteContent);
+            return Base64.encodeBase64String(result);
+        } catch (Exception var7) {
+            LOGGER.error("encrypt error", var7);
+            return null;
+        }
+    }
+
+    public static String decryptDirectUseCBC(String content, String key) {
+        try {
+            byte[] contentBytes = Base64.decodeBase64(content);
+            byte[] bytesKey = key.getBytes(ENCODING);
+            SecretKeySpec secretKey = new SecretKeySpec(bytesKey, KEY_ALGORITHM);
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(initIV("AES/CBC/PKCS5Padding")));
+            byte[] result = cipher.doFinal(contentBytes);
+            return new String(result);
+        } catch (Exception var6) {
+            LOGGER.error("decrypt error", var6);
+            return null;
+        }
+    }
+
+    private static byte[] initIV(String aesCbcPkcAlg) {
+        Cipher cp;
+        try {
+            cp = Cipher.getInstance(aesCbcPkcAlg);
+            int blockSize = cp.getBlockSize();
+            byte[] iv = new byte[blockSize];
+            for (int i = 0; i < blockSize; ++i) {
+                iv[i] = 0;
+            }
+            return iv;
+
+        } catch (Exception e) {
+            int blockSize = 16;
+            byte[] iv = new byte[blockSize];
+            for (int i = 0; i < blockSize; ++i) {
+                iv[i] = 0;
+            }
+            return iv;
         }
     }
 

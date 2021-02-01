@@ -8,12 +8,21 @@ public class FileCrypt {
 
     @Test
     public void testAESDecrypt() {
-        String aesKey = KEY;
         String encryptContent = "";
         System.out.println("originData:" + encryptContent);
 
-        String decryptData = AESUtil.decrypt(encryptContent, aesKey);
+        String decryptData = AESUtil.decryptDirectUseCBC(encryptContent, KEY);
         System.out.println("decryptData:" + decryptData);
+    }
+
+    @Test
+    public void enAndDe() {
+        String originData = "abc";
+        String encryptData = AESUtil.encryptDirectUseCBC(originData, KEY);
+        System.out.println(encryptData);
+
+        String decryptData = AESUtil.decryptDirectUseCBC(encryptData, KEY);
+        System.out.println(decryptData);
     }
 
 }
