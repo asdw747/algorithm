@@ -7,13 +7,13 @@ import java.util.Objects;
 
 public class TestCryptII {
 
-    private String PAR_RSA_PUBLIC_KEY = "";
+    private static final String PAR_RSA_PUBLIC_KEY = "";
 
-    private String PAR_RSA_PRIVATE_KEY = "";
+    private static final String PAR_RSA_PRIVATE_KEY = "";
 
-    private String RSA_PUBLIC_KEY = "";
+    private static final String RSA_PUBLIC_KEY = "";
 
-    private String RSA_PRIVATE_KEY = "";
+    private static final String RSA_PRIVATE_KEY = "";
 
 
     @Test

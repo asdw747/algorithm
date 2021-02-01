@@ -10,9 +10,9 @@ import java.util.*;
 @Slf4j
 public class TestCrypt {
 
-    private static String RSA_PUBLIC_KEY = "";
+    private static final String RSA_PUBLIC_KEY = "";
 
-    private static String RSA_PRIVATE_KEY = "";
+    private static final String RSA_PRIVATE_KEY = "";
 
     @Test
     public void testKey() {
