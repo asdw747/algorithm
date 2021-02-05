@@ -1,5 +1,6 @@
 package mars.utils.file;
 
+import mars.utils.cryptor.Base64Util;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.tools.zip.ZipFile;
 import org.slf4j.Logger;
@@ -50,11 +51,10 @@ public class FileUtil {
     }
 
     public static File getImage(String image, TempDir tempDir) {
-        Base64.Decoder decoder = Base64.getDecoder();
         File file = tempDir.newFile();
         try {
             OutputStream outStream = new FileOutputStream(file);
-            outStream.write(decoder.decode(image));
+            outStream.write(Base64Util.decode(image));
         } catch (IOException e) {
             LOGGER.error("转换图片出错！, {}", ExceptionUtils.getStackTrace(e));
             return null;

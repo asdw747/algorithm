@@ -27,7 +27,7 @@ public class SignUtil {
             signature.initSign(priKey);
             signature.update(content.getBytes(ENCODING));
             byte[] signed = signature.sign();
-            return new String(Base64.encodeBase64URLSafe(signed), ENCODING);
+            return Base64Util.encode(signed);
         } catch (Exception e) {
             return null;
         }
@@ -40,7 +40,7 @@ public class SignUtil {
             signature.initSign(priKey);
             signature.update(data.getBytes(ENCODING));
             byte[] signed = signature.sign();
-            return new String(Base64.encodeBase64URLSafe(signed), ENCODING);
+            return Base64Util.encode(signed);
         } catch (Exception e) {
             return null;
         }
@@ -52,7 +52,7 @@ public class SignUtil {
         treeMap.putAll(map);
         String content = mapToSortedStr(treeMap);
         try {
-            return doCheck(content.getBytes(ENCODING), Base64.decodeBase64(sign), RSAUtil.loadPublicKey(publicKey));
+            return doCheck(content.getBytes(ENCODING), Base64Util.decode(sign), RSAUtil.loadPublicKey(publicKey));
         } catch (Exception e) {
             return false;
         }
@@ -60,7 +60,7 @@ public class SignUtil {
 
     public static boolean verifySign(String data, String sign, String publicKey) {
         try {
-            return doCheck(data.getBytes(ENCODING), Base64.decodeBase64(sign), RSAUtil.loadPublicKey(publicKey));
+            return doCheck(data.getBytes(ENCODING), Base64Util.decode(sign), RSAUtil.loadPublicKey(publicKey));
         } catch (Exception e) {
             return false;
         }

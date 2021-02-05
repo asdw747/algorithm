@@ -29,7 +29,7 @@ public final class RSAUtil {
 
 	/**
 	 * 随机生成RSA密钥对
-	 * 
+	 *
 	 * @param keyLength
 	 *            密钥长度，范围：512～2048<br>
 	 *            一般1024
@@ -55,7 +55,7 @@ public final class RSAUtil {
 	}
 
 	/**
-	 * 用公钥加密
+	 * 用公钥加密，非循环方式，content长度受限
 	 * 默认返回结果用base64编码
 	 */
 	public static String encryptByPublicKey(String plainText, String publicKey) {
@@ -64,7 +64,7 @@ public final class RSAUtil {
 			Cipher cipher = Cipher.getInstance(RSA);
 			cipher.init(Cipher.ENCRYPT_MODE, pubKey);
 			byte[] enBytes = cipher.doFinal(plainText.getBytes(StandardCharsets.UTF_8));
-			return Base64.encodeBase64String(enBytes);
+			return Base64Util.encode(enBytes);
 		} catch (Exception var5) {
 			return null;
 		}
@@ -105,7 +105,7 @@ public final class RSAUtil {
 	}
 
 	/**
-	 * 用私钥解密
+	 * 用私钥解密，非循环方式，content长度受限
 	 * 默认参数需要用base64解码
 	 */
 	public static String decryptByPrivateKey(String enStr, String privateKey) {
@@ -113,7 +113,7 @@ public final class RSAUtil {
 			PrivateKey priKey = loadPrivateKey(privateKey);
 			Cipher cipher = Cipher.getInstance(RSA);
 			cipher.init(Cipher.DECRYPT_MODE, priKey);
-			byte[] deBytes = cipher.doFinal(Base64.decodeBase64(enStr));
+			byte[] deBytes = cipher.doFinal(Base64Util.decode(enStr));
 			return new String(deBytes);
 		} catch (Exception var5) {
 			return null;

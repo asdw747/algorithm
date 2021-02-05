@@ -1,6 +1,5 @@
 package mars.utils.cryptor;
 
-import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,18 +29,18 @@ public class AESUtil {
         keyGenerator.init(128);
         SecretKey key = keyGenerator.generateKey();
         byte[] keyExternal = key.getEncoded();
-        return Base64.encodeBase64String(keyExternal);
+        return Base64Util.encode(keyExternal);
     }
 
     public static String encrypt(String content, String key) {
         try {
-            byte[] bytesKey = Base64.decodeBase64(key);
+            byte[] bytesKey = Base64Util.decode(key);
             SecretKeySpec secretKey = new SecretKeySpec(bytesKey, KEY_ALGORITHM);
             Cipher cipher = Cipher.getInstance(KEY_ALGORITHM);
             byte[] byteContent = content.getBytes(ENCODING);
             cipher.init(1, secretKey);
             byte[] result = cipher.doFinal(byteContent);
-            return Base64.encodeBase64String(result);
+            return Base64Util.encode(result);
         } catch (Exception var7) {
             LOGGER.error("encrypt error", var7);
             return null;
@@ -50,11 +49,11 @@ public class AESUtil {
 
     public static String decrypt(String content, String key) {
         try {
-            byte[] bytesKey = Base64.decodeBase64(key);
+            byte[] bytesKey = Base64Util.decode(key);
             SecretKeySpec secretKey = new SecretKeySpec(bytesKey, KEY_ALGORITHM);
             Cipher cipher = Cipher.getInstance(KEY_ALGORITHM);
             cipher.init(2, secretKey);
-            byte[] result = cipher.doFinal(Base64.decodeBase64(content));
+            byte[] result = cipher.doFinal(Base64Util.decode(content));
             return new String(result);
         } catch (Exception var6) {
             LOGGER.error("decrypt error", var6);
@@ -70,7 +69,7 @@ public class AESUtil {
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(1, secretKey, new IvParameterSpec(initIV("AES/CBC/PKCS5Padding")));
             byte[] result = cipher.doFinal(byteContent);
-            return Base64.encodeBase64String(result);
+            return Base64Util.encode(result);
         } catch (Exception var7) {
             LOGGER.error("encrypt error", var7);
             return null;
@@ -79,7 +78,7 @@ public class AESUtil {
 
     public static String decryptDirectUseCBC(String content, String key) {
         try {
-            byte[] contentBytes = Base64.decodeBase64(content);
+            byte[] contentBytes = Base64Util.decode(content);
             byte[] bytesKey = key.getBytes(ENCODING);
             SecretKeySpec secretKey = new SecretKeySpec(bytesKey, KEY_ALGORITHM);
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");

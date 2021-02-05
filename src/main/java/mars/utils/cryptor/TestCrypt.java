@@ -23,12 +23,11 @@ public class TestCrypt {
 
     @Test
     public void encrypt() throws Exception {
-        String publicKey = RSA_PUBLIC_KEY;
         String originData = "aaaa";
         System.out.println(originData);
         String encryptKey =  Base64Util.encode(
                 Objects.requireNonNull(
-                        RSAUtil.encryptData(originData.getBytes(StandardCharsets.UTF_8), RSAUtil.loadPublicKey(publicKey))
+                        RSAUtil.encryptData(originData.getBytes(StandardCharsets.UTF_8), RSAUtil.loadPublicKey(RSA_PUBLIC_KEY))
                 )
         );
 
@@ -38,13 +37,12 @@ public class TestCrypt {
 
     @Test
     public void decrypt() throws Exception {
-        String privateKey = RSA_PRIVATE_KEY;
         String encryptData = "";
         System.out.println(encryptData);
 
         String decryptKey = new String(
                 Objects.requireNonNull(
-                        RSAUtil.decryptData(Base64Util.decode(encryptData), RSAUtil.loadPrivateKey(privateKey))
+                        RSAUtil.decryptData(Base64Util.decode(encryptData), RSAUtil.loadPrivateKey(RSA_PRIVATE_KEY))
                 )
         );
 
@@ -53,12 +51,10 @@ public class TestCrypt {
 
     @Test
     public void encryptAndDecrypt() throws Exception {
-        String publicKey = RSA_PUBLIC_KEY;
-        String privateKey = RSA_PRIVATE_KEY;
         String originData = "aaaa";
         String encryptKey =  Base64Util.encode(
                 Objects.requireNonNull(
-                        RSAUtil.encryptData(originData.getBytes(StandardCharsets.UTF_8), RSAUtil.loadPublicKey(publicKey))
+                        RSAUtil.encryptData(originData.getBytes(StandardCharsets.UTF_8), RSAUtil.loadPublicKey(RSA_PUBLIC_KEY))
                 )
         );
 
@@ -66,7 +62,7 @@ public class TestCrypt {
 
         String decryptKey = new String(
                 Objects.requireNonNull(
-                        RSAUtil.decryptData(Base64Util.decode(encryptKey), RSAUtil.loadPrivateKey(privateKey))
+                        RSAUtil.decryptData(Base64Util.decode(encryptKey), RSAUtil.loadPrivateKey(RSA_PRIVATE_KEY))
                 )
         );
 
@@ -75,9 +71,6 @@ public class TestCrypt {
 
     @Test
     public void AESSend() {
-        String publicKey = RSA_PUBLIC_KEY;
-        String privateKey = RSA_PRIVATE_KEY;
-
         try {
             //模拟发送消息流程
             String data = "a";
@@ -87,20 +80,18 @@ public class TestCrypt {
             System.out.println("aesKey:" + aesKey);
             assert aesKey != null;
             String encryptData = AESUtil.encrypt(data, aesKey);
-//            String encryptKey = RSAUtil.encryptByPublicKey(aesKey, publicKey);
             String encryptKey =  Base64Util.encode(
                     Objects.requireNonNull(
-                            RSAUtil.encryptData(aesKey.getBytes(StandardCharsets.UTF_8), RSAUtil.loadPublicKey(publicKey))
+                            RSAUtil.encryptData(aesKey.getBytes(StandardCharsets.UTF_8), RSAUtil.loadPublicKey(RSA_PUBLIC_KEY))
                     )
             );
             System.out.println("encryptData:" + encryptData);
             System.out.println("encryptKey:"+ encryptKey);
 
             //模拟接受消息流程
-//            String decryptKey = RSAUtil.decryptByPrivateKey(encryptKey, privateKey);
             String decryptKey = new String(
                     Objects.requireNonNull(
-                            RSAUtil.decryptData(Base64Util.decode(encryptKey), RSAUtil.loadPrivateKey(privateKey))
+                            RSAUtil.decryptData(Base64Util.decode(encryptKey), RSAUtil.loadPrivateKey(RSA_PRIVATE_KEY))
                     )
             );
             String decryptData = AESUtil.decrypt(encryptData, decryptKey);
@@ -115,15 +106,12 @@ public class TestCrypt {
 
     @Test
     public void signAndUnSign() {
-        String publicKey = RSA_PUBLIC_KEY;
-        String privateKey = RSA_PRIVATE_KEY;
-
         Map<String, Object> map = new HashMap<>();
         map.put("a", "b");
-        String sign = SignUtil.signByPrivateKey(map, privateKey);
+        String sign = SignUtil.signByPrivateKey(map, RSA_PRIVATE_KEY);
 
         map.put("sign", sign);
-        boolean check = SignUtil.verifySign(map, publicKey);
+        boolean check = SignUtil.verifySign(map, RSA_PUBLIC_KEY);
         System.out.println(check);
     }
 }
