@@ -5,7 +5,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Threads {
+public class ExecutorsCase {
 
     public static void main(String [] args) {
 
@@ -18,7 +18,7 @@ public class Threads {
 
     private static void cachedThreadPool() {
         ExecutorService executorService = Executors.newCachedThreadPool();
-        executorService.submit(Threads::gogogo);
+        executorService.submit(ExecutorsCase::gogogo);
     }
 
     private static void fixedThreadPool() {
@@ -30,7 +30,7 @@ public class Threads {
         executorService.submit(() -> go(1));
 
         for (int i=0; i<100; i++) {
-            executorService.submit(Threads::gogogo);
+            executorService.submit(ExecutorsCase::gogogo);
         }
     }
 
@@ -42,7 +42,7 @@ public class Threads {
 
     private static void singleThreadExecutor() {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
-        executorService.submit(Threads::gogogo);
+        executorService.submit(ExecutorsCase::gogogo);
     }
 
     private static void go(int count) {
