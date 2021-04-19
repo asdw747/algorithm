@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+
+    <Properties>
+        <Property name="APP_LOG_ROOT">/home/work/log/algorithm</Property>
+   </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!-- 输出日志的格式 -->
+            <PatternLayout pattern="%d [%t] %-5p %c - %m%n"/>
+        </Console>
+
+        <RollingFile name="logFile" fileName="${APP_LOG_ROOT}/algorithm.log"
+                     filePattern="${APP_LOG_ROOT}/algorithm.log-%d{yyyy-MM-dd}.%i">
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d [%t] %-5p %c - %m%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="500MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="logFile" />
+        </Root>
+
+        <Logger name="com.zhangys" additivity="false" level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="logFile" />
+        </Logger>
+    </Loggers>
+</Configuration>

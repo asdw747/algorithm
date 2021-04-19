@@ -1,9 +1,5 @@
 package mars.leetcode.y2020q3;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.zookeeper.txn.CreateTxn;
-
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 
 public class ThreeSum {
