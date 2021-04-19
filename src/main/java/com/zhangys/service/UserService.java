@@ -1,7 +1,6 @@
-package com.zhangys.service.impl;
+package com.zhangys.service;
 
 import com.zhangys.entity.UserEntity;
-import com.zhangys.service.IUserService;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +10,10 @@ import java.util.List;
  */
 
 @Service("UserService")
-public class UserService implements IUserService{
+public class UserService {
 
 //    @Resource(name = "userDao")
 
-    @Override
     public boolean createUser(UserEntity userEntity){
         boolean result = false;
         try{
@@ -29,7 +27,6 @@ public class UserService implements IUserService{
         return result;
     }
 
-    @Override
     public void deleteUser(UserEntity userEntity){
         try{
 
@@ -38,7 +35,6 @@ public class UserService implements IUserService{
         }
     }
 
-    @Override
     public void updateUser(UserEntity userEntity){
         try{
 
@@ -47,7 +43,6 @@ public class UserService implements IUserService{
         }
     }
 
-    @Override
     public List<UserEntity> getAllUser(){
         List<UserEntity> result = new ArrayList<UserEntity>();
         try{
@@ -58,7 +53,6 @@ public class UserService implements IUserService{
         return result;
     }
 
-    @Override
     public UserEntity getUserByName(String loginName){
         UserEntity userEntity = null;
         try{

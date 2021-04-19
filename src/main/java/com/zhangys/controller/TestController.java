@@ -2,8 +2,8 @@ package com.zhangys.controller;
 
 import com.zhangys.entity.DepartmentEntity;
 import com.zhangys.entity.UserEntity;
-import com.zhangys.service.IUserService;
-import com.zhangys.service.impl.DepartmentService;
+import com.zhangys.service.DepartmentService;
+import com.zhangys.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class TestController {
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Autowired
     private DepartmentService departmentService;

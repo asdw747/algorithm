@@ -1,7 +1,6 @@
-package com.zhangys.service.impl;
+package com.zhangys.service;
 
 import com.zhangys.entity.DepartmentEntity;
-import com.zhangys.service.IDepartmentService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -10,10 +9,9 @@ import java.util.List;
  */
 
 @Service("DepartmentService")
-public class DepartmentService implements IDepartmentService{
+public class DepartmentService {
 
 
-    @Override
     public DepartmentEntity getDptByName(String dptName){
         DepartmentEntity departmentEntity = null;
         try{
@@ -24,7 +22,6 @@ public class DepartmentService implements IDepartmentService{
         return departmentEntity;
     }
 
-    @Override
     public List<DepartmentEntity> getAllDpt(){
         List<DepartmentEntity> list = null;
         try{
