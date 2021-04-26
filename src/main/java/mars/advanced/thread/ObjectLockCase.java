@@ -1,4 +1,4 @@
-package mars.advanced.concurrent.thread;
+package mars.advanced.thread;
 
 import org.junit.Test;
 
