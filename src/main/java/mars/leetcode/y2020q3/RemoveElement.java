@@ -1,7 +1,5 @@
 package mars.leetcode.y2020q3;
 
-import org.jboss.netty.handler.codec.replay.UnreplayableOperationException;
-
 public class RemoveElement {
 
     /*
