@@ -2,6 +2,8 @@ package mars.leetcode.arr;
 
 import org.junit.Test;
 
+import java.util.*;
+
 public class BinarySearch {
 
     @Test
