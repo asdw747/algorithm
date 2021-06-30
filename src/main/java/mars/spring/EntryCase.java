@@ -1,17 +1,19 @@
 package mars.spring;
 
 import mars.spring.service.AService;
-import mars.spring.service.ConfigScan;
+import mars.spring.config.Config;
+import mars.spring.config.Scan;
 import org.junit.Test;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 public class EntryCase {
 
     @Test
     public void test() {
 
-        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
-        applicationContext.register(ConfigScan.class);
+        AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
+        applicationContext.register(Scan.class);
+        applicationContext.register(Config.class);
         applicationContext.refresh();
 
         System.out.println(applicationContext.getBean(AService.class));

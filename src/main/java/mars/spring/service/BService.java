@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AService {
+public class BService {
 
     @Autowired
-    private BService bService;
+    private AService aService;
 
 }
