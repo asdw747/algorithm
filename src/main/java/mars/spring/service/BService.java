@@ -9,4 +9,9 @@ public class BService {
     @Autowired
     private AService aService;
 
+    public void test() {
+        aService.test();
+        System.currentTimeMillis();
+    }
+
 }
